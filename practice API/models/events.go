@@ -1,6 +1,9 @@
 package models
 
-import "time"
+import (
+	//"fmt"
+	"time"
+)
 
 type Events struct {
 	ID          int       `json:"id"`
@@ -16,3 +19,8 @@ var events []Events
 func GetAllEvents() []Events {
 	return events
 }
+
+func (e  *Events) Save() {
+	events = append(events, *e)
+}
+
