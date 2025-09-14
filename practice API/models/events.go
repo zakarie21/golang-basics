@@ -2,6 +2,8 @@ package models
 
 import (
 	//"fmt"
+	"RESTApi/db"
+	"errors"
 	"time"
 )
 
@@ -16,11 +18,25 @@ type Events struct {
 
 var events []Events
 
-func GetAllEvents() []Events {
-	return events
+func GetAllEvents() ([]Events, error) {
+	rows, err:= db.DB.Query("SELECT * FROM events")
+	if err != nil{
+		return events, errors.New("command failed to exectue")
+	}
+	
+	for rows.Next(){
+		var event Events
+		err:= rows.Scan(&event.ID,&event.Name, &event.Description, &event.Location, &event.Date, &event.UserID)
+		if err != nil {
+			return events, errors.New("unable to scan rows")
+		}
+		events = append(events, event)
+	}
+
+	return events, nil
 }
 
 func (e  *Events) Save() {
-	events = append(events, *e)
+	// events = append(events, *e)
 }
 
