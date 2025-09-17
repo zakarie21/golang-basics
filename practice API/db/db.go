@@ -2,14 +2,14 @@ package db
 
 import (
 	"database/sql"
-	_ "github.com/mattn/go-sqlite3"
+	_"modernc.org/sqlite"
 )
 
 var DB *sql.DB
 var err error
 
 func InitDB() {
-	DB, err = sql.Open("sqlite3", "api.db")
+	DB, err = sql.Open("sqlite", "api.db")
 	if err != nil {
 		panic(err)
 	}
@@ -26,14 +26,14 @@ func CreateTable() {
     description TEXT NOT NULL ,
     location    TEXT NOT NULL ,
     dateTime    DATETIME NOT NULL ,
-    userId INTEGER NOT NULL ,
+    userId INTEGER NOT NULL 
     
      )`
 
 	 _, err:= DB.Exec(createTableQuery) 
 
 	 if err != nil{
-		panic("Not able to create events.table")
+		panic(err)
 	 } 
 
 

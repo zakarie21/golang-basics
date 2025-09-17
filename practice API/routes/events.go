@@ -2,7 +2,7 @@ package routes
 
 import (
 	"RESTApi/models"
-	"errors"
+	//"errors"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -28,6 +28,11 @@ func CreateEvents(context *gin.Context) {
 
 	event.ID = 1
 
-	event.Save()
+	err = event.Save()
+	if err != nil{
+		context.JSON(http.StatusBadRequest, gin.H{"Message": "Bad request"})
+		return
+	}
+	
 	context.JSON(http.StatusCreated, gin.H{"Created event": event})
 }

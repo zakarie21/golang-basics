@@ -19,7 +19,7 @@ type Events struct {
 var events []Events
 
 func GetAllEvents() ([]Events, error) {
-	rows, err:= db.DB.Query("SELECT * FROM events")
+	rows, err:= db.DB.Query(`SELECT * FROM events`)
 	if err != nil{
 		return events, errors.New("command failed to exectue")
 	}
@@ -36,7 +36,13 @@ func GetAllEvents() ([]Events, error) {
 	return events, nil
 }
 
-func (e  *Events) Save() {
-	// events = append(events, *e)
+func (e  *Events) Save() error {
+	insertQuery:= `INSERT INTO events (name, description,location,dateTime, userId) VALUES (?,?,?,?,?)`
+	_, err:= db.DB.Exec(insertQuery, e.Name, e.Description, e.Location, e.Date,e.UserID)
+	if err!= nil{
+		return errors.New("unable to create table")
+	}
+
+	return nil
 }
 
