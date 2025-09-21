@@ -16,9 +16,11 @@ type Events struct {
 	Location    string    `json:"location" binding: "required"`
 }
 
-var events []Events
+
 
 func GetAllEvents() ([]Events, error) {
+	var events []Events
+	
 	rows, err:= db.DB.Query(`SELECT * FROM events`)
 	if err != nil{
 		return events, errors.New("command failed to exectue")
@@ -31,10 +33,13 @@ func GetAllEvents() ([]Events, error) {
 			return events, errors.New("unable to scan rows")
 		}
 		events = append(events, event)
+
 	}
 
 	return events, nil
 }
+
+
 
 func (e  *Events) Save() error {
 	insertQuery:= `INSERT INTO events (name, description,location,dateTime, userId) VALUES (?,?,?,?,?)`
@@ -44,5 +49,19 @@ func (e  *Events) Save() error {
 	}
 
 	return nil
+}
+
+func GetEvent(id int64) (Events, error){
+	eventRow:= db.DB.QueryRow(`SELECT * FROM events WHERE ID=(?)`, id)
+	
+
+	var event Events
+	err := eventRow.Scan(&event.ID,&event.Name, &event.Description, &event.Location, &event.Date, &event.UserID )
+	if err!= nil{
+		return event,err
+	}
+	
+	return event, nil
+
 }
 

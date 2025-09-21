@@ -2,6 +2,9 @@ package routes
 
 import (
 	"RESTApi/models"
+	
+	"strconv"
+
 	//"errors"
 	"net/http"
 
@@ -17,6 +20,21 @@ func getEvents(context *gin.Context) {
 
 }
 
+func getAnEvent(context *gin.Context) {
+	eventID,err:= strconv.ParseInt(context.Param("id"),10,64)
+
+	if err != nil{
+		context.JSON(http.StatusBadRequest, gin.H{"Message": "Invalid ID passed"})
+		return 
+	}
+	getOneEvent, err:= models.GetEvent(eventID)
+	if err != nil{
+		context.JSON(http.StatusInternalServerError, gin.H{"Message": "No Search event present"})
+		return
+	}
+	context.JSON(http.StatusOK, gin.H{"Event retrieved successfully": getOneEvent})
+}
+
 func CreateEvents(context *gin.Context) {
 	var event models.Events
 
@@ -26,7 +44,7 @@ func CreateEvents(context *gin.Context) {
 		return
 	}
 
-	event.ID = 1
+	
 
 	err = event.Save()
 	if err != nil{
@@ -36,3 +54,4 @@ func CreateEvents(context *gin.Context) {
 	
 	context.JSON(http.StatusCreated, gin.H{"Created event": event})
 }
+
