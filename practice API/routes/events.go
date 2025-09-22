@@ -2,7 +2,8 @@ package routes
 
 import (
 	"RESTApi/models"
-	
+	"fmt"
+
 	"strconv"
 
 	//"errors"
@@ -13,7 +14,7 @@ import (
 
 func getEvents(context *gin.Context) {
 	allEvents, err := models.GetAllEvents()
-	if err != nil{
+	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"Message": "unable to get all events"})
 	}
 	context.JSON(http.StatusOK, gin.H{"Events retrieved successfully": allEvents})
@@ -21,17 +22,40 @@ func getEvents(context *gin.Context) {
 }
 
 func getAnEvent(context *gin.Context) {
-	eventID,err:= strconv.ParseInt(context.Param("id"),10,64)
+	eventID, err := strconv.ParseInt(context.Param("id"), 10, 64)
 
-	if err != nil{
+	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"Message": "Invalid ID passed"})
-		return 
+		return
 	}
-	getOneEvent, err:= models.GetEvent(eventID)
-	if err != nil{
+	getOneEvent, err := models.GetEvent(eventID)
+	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"Message": "No Search event present"})
 		return
 	}
+	context.JSON(http.StatusOK, gin.H{"Event retrieved successfully": getOneEvent})
+}
+
+func deleteAnEvent(context *gin.Context) {
+	eventID, err := strconv.ParseInt(context.Param("id"), 10, 64)
+
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"Message": "Invalid ID passed"})
+		return
+	}
+	getOneEvent, err := models.GetEvent(eventID)
+
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"Message": "No Search event found"})
+		return
+	}
+	err = models.DeleteEvent(eventID)
+	if err != nil {
+		fmt.Println(err)
+		context.JSON(http.StatusInternalServerError, gin.H{"Message": err})
+		return
+	}
+
 	context.JSON(http.StatusOK, gin.H{"Event retrieved successfully": getOneEvent})
 }
 
@@ -44,14 +68,11 @@ func CreateEvents(context *gin.Context) {
 		return
 	}
 
-	
-
 	err = event.Save()
-	if err != nil{
+	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"Message": "Bad request"})
 		return
 	}
-	
+
 	context.JSON(http.StatusCreated, gin.H{"Created event": event})
 }
-
