@@ -59,6 +59,42 @@ func deleteAnEvent(context *gin.Context) {
 	context.JSON(http.StatusOK, gin.H{"Event retrieved successfully": getOneEvent})
 }
 
+func updateAnEvent(context *gin.Context) {
+	eventID, err := strconv.ParseInt(context.Param("id"), 10,64)
+
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"Message": "Invalid ID passed"})
+		return
+	}
+	_, err = models.GetEvent(eventID)
+
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"Message": "No search event found"})
+		return
+	}
+	
+
+	var event models.Events
+	err = context.ShouldBindJSON(&event)
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"Message": "Bad request"})
+		return
+	}
+	err = event.UpdateEvent(eventID)
+	if err != nil {
+		fmt.Println(err)
+		context.JSON(http.StatusInternalServerError, gin.H{"Message": err})
+		return
+	}
+	updatedEvents, err := models.GetEvent(eventID)
+	if err!= nil{
+		context.JSON(http.StatusInternalServerError, gin.H{"Message": "No search event found"})
+		return
+	}
+	context.JSON(http.StatusOK, gin.H{"Event updated successfully": updatedEvents})
+	
+}
+
 func CreateEvents(context *gin.Context) {
 	var event models.Events
 

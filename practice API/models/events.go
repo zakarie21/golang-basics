@@ -73,3 +73,18 @@ func DeleteEvent(id int64) error {
 
 	return nil
 }
+
+func (e Events) UpdateEvent(id int64) error {
+	
+	
+	updateQuery:= `UPDATE events SET name=?,description=?,location=?,dateTime=? WHERE id=?`
+
+	_, err := db.DB.Exec(updateQuery, e.Name, e.Description,e.Location, e.Date, id)
+	if err != nil {
+		return errors.New("command failed to execute")
+	}
+	
+	return  nil
+}
+	
+
