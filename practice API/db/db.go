@@ -35,6 +35,19 @@ func CreateTable() {
 	 if err != nil{
 		panic(err)
 	 } 
+	
+	createUserTableQuery:= `CREATE TABLE IF NOT EXISTS users (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	email TEXT NOT NULL,
+	password TEXT NOT NULL
+	)`
+
+	_, err = DB.Exec(createUserTableQuery)
+
+	if err != nil {
+		panic(err)
+	}
 
 
 }
+

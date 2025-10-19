@@ -8,6 +8,8 @@ func RouterInitialisation(server *gin.Engine) {
 	server.Handle("GET", "/events/:id", getAnEvent)
 	server.Handle("DELETE", "/events/:id", deleteAnEvent)
 	server.Handle("PUT", "/events/:id", updateAnEvent)
+	server.Handle("PUT", "/events/:id", updateAnEvent)
+	server.Handle("POST", "/events/:id", signUp)
 	
 
 }

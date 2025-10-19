@@ -17,6 +17,8 @@ type Events struct {
 	Location    string    `json:"location" binding: "required"`
 }
 
+
+
 func GetAllEvents() ([]Events, error) {
 	var events []Events
 
