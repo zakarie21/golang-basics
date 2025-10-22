@@ -10,6 +10,7 @@ Questions:
 4. Write a function AddUsage() to increase power usage for a city
 5. Write a function FindHighestUsage() to find the city with the highest power usage
 6. In main, call all these functions and show results
+7. Write a function RemoveCity() to remove a city from the map if it exists
 */
 
 func ShowPower(powerGrid map[string]int) {
@@ -36,6 +37,15 @@ func FindHighestUsage(powerGrid map[string]int) {
 	fmt.Println("\nCity with highest power usage:", highestCity, "-", highestUsage, "MW")
 }
 
+func RemoveCity(powerGrid map[string]int, city string) {
+	if _, exists := powerGrid[city]; exists {
+		delete(powerGrid, city)
+		fmt.Println("\nRemoved city:", city)
+	} else {
+		fmt.Println("\nCity not found:", city)
+	}
+}
+
 func main() {
 	// Step 1: Create a map for city power usage
 	powerGrid := map[string]int{
@@ -57,5 +67,12 @@ func main() {
 
 	// Step 5: Find and show the city with the highest usage
 	FindHighestUsage(powerGrid)
+
+	// Step 6: Remove a city from the map
+	RemoveCity(powerGrid, "Manchester")
+
+	// Step 7: Show final power grid
+	fmt.Println("\nFinal power grid:")
+	ShowPower(powerGrid)
 }
 
