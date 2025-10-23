@@ -9,8 +9,9 @@ Questions:
 3. Write a function ShowPower() to print cities and their usage
 4. Write a function AddUsage() to increase power usage for a city
 5. Write a function FindHighestUsage() to find the city with the highest power usage
-6. In main, call all these functions and show results
-7. Write a function RemoveCity() to remove a city from the map if it exists
+6. Write a function RemoveCity() to remove a city from the map if it exists
+7. Write a function FindCity() that checks if a city exists and prints its usage if found.
+8. In main, call all these functions and show results
 */
 
 func ShowPower(powerGrid map[string]int) {
@@ -46,6 +47,14 @@ func RemoveCity(powerGrid map[string]int, city string) {
 	}
 }
 
+func FindCity(powerGrid map[string]int, city string) {
+	if usage, exists := powerGrid[city]; exists {
+		fmt.Println("\nCity found:", city, "-", usage, "MW")
+	} else {
+		fmt.Println("\nCity not found:", city)
+	}
+}
+
 func main() {
 	// Step 1: Create a map for city power usage
 	powerGrid := map[string]int{
@@ -71,8 +80,11 @@ func main() {
 	// Step 6: Remove a city from the map
 	RemoveCity(powerGrid, "Manchester")
 
-	// Step 7: Show final power grid
+	// Step 7: Try finding a city
+	FindCity(powerGrid, "London")
+	FindCity(powerGrid, "Manchester")
+
+	// Step 8: Show final map
 	fmt.Println("\nFinal power grid:")
 	ShowPower(powerGrid)
 }
-
