@@ -10,8 +10,9 @@ Questions:
 4. Write a function AddUsage() to increase power usage for a city
 5. Write a function FindHighestUsage() to find the city with the highest power usage
 6. Write a function RemoveCity() to remove a city from the map if it exists
-7. Write a function FindCity() that checks if a city exists and prints its usage if found.
-8. In main, call all these functions and show results
+7. Write a function FindCity() to check if a city exists and print its usage
+8. Write a function AverageUsage() to calculate and print the average power usage
+9. In main, call all functions to test the system
 */
 
 func ShowPower(powerGrid map[string]int) {
@@ -55,19 +56,37 @@ func FindCity(powerGrid map[string]int, city string) {
 	}
 }
 
+func AverageUsage(powerGrid map[string]int) {
+	if len(powerGrid) == 0 {
+		fmt.Println("\nNo cities in the power grid.")
+		return
+	}
+
+	total := 0
+	for _, usage := range powerGrid {
+		total = total + usage
+	}
+
+	average := total / len(powerGrid)
+	fmt.Println("\nAverage power usage across all cities:", average, "MW")
+}
+
 func main() {
 	// Step 1: Create a map for city power usage
 	powerGrid := map[string]int{
-		"London":     900,
-		"Manchester": 750,
-		"Birmingham": 820,
+		"London":      900,
+		"Manchester":  750,
+		"Birmingham":  820,
+		"Liverpool":   700,
+		"Leeds":       680,
+		"Glasgow":     770,
 	}
 
 	// Step 2: Show starting power usage
 	fmt.Println("Initial power usage:")
 	ShowPower(powerGrid)
 
-	// Step 3: Increase London's power usage
+	// Step 3: Increase London’s power usage
 	AddUsage(powerGrid, "London", 150)
 
 	// Step 4: Show updated power usage
@@ -77,14 +96,18 @@ func main() {
 	// Step 5: Find and show the city with the highest usage
 	FindHighestUsage(powerGrid)
 
-	// Step 6: Remove a city from the map
-	RemoveCity(powerGrid, "Manchester")
+	// Step 6: Remove a city
+	RemoveCity(powerGrid, "Leeds")
 
 	// Step 7: Try finding a city
 	FindCity(powerGrid, "London")
-	FindCity(powerGrid, "Manchester")
+	FindCity(powerGrid, "Leeds")
 
-	// Step 8: Show final map
+	// Step 8: Show average power usage
+	AverageUsage(powerGrid)
+
+	// Step 9: Show final map
 	fmt.Println("\nFinal power grid:")
 	ShowPower(powerGrid)
 }
+
