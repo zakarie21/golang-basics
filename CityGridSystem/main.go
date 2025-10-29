@@ -12,8 +12,9 @@ Questions:
 6. Write a function RemoveCity() to remove a city from the map if it exists
 7. Write a function FindCity() to check if a city exists and print its usage
 8. Write a function AverageUsage() to calculate and print the average power usage
-9. In main, call all functions to test the system
-10. Write a function FindCitiesAbove() to print all cities using more than a certain amount of power
+9. Write a function FindCitiesAbove() to print all cities using more than a certain amount of power
+10. Add more UK cities and call all functions to test the system
+11. Write a function TotalUsage() to calculate total power usage across all cities
 */
 
 func ShowPower(powerGrid map[string]int) {
@@ -86,6 +87,14 @@ func FindCitiesAbove(powerGrid map[string]int, threshold int) {
 	}
 }
 
+func TotalUsage(powerGrid map[string]int) {
+	total := 0
+	for _, usage := range powerGrid {
+		total = total + usage
+	}
+	fmt.Println("\nTotal power usage across all cities:", total, "MW")
+}
+
 func main() {
 	// Step 1: Create a map for city power usage
 	powerGrid := map[string]int{
@@ -97,6 +106,8 @@ func main() {
 		"Glasgow":     770,
 		"Bristol":     690,
 		"Sheffield":   720,
+		"Newcastle":   710,
+		"Nottingham":  670,
 	}
 
 	// Step 2: Show starting power usage
@@ -126,7 +137,10 @@ func main() {
 	// Step 9: Find all cities using more than 800 MW
 	FindCitiesAbove(powerGrid, 800)
 
-	// Step 10: Final map
+	// Step 10: Show total power usage across all cities
+	TotalUsage(powerGrid)
+
+	// Step 11: Final map after all operations
 	fmt.Println("\nFinal power grid:")
 	ShowPower(powerGrid)
 }
