@@ -15,6 +15,7 @@ Questions:
 9. Write a function FindCitiesAbove() to print all cities using more than a certain amount of power
 10. Add more UK cities and call all functions to test the system
 11. Write a function TotalUsage() to calculate total power usage across all cities
+12. Write a function UpdateUsage() to set a new power usage for a city if it exists
 */
 
 func ShowPower(powerGrid map[string]int) {
@@ -95,6 +96,15 @@ func TotalUsage(powerGrid map[string]int) {
 	fmt.Println("\nTotal power usage across all cities:", total, "MW")
 }
 
+func UpdateUsage(powerGrid map[string]int, city string, newUsage int) {
+	if _, exists := powerGrid[city]; exists {
+		powerGrid[city] = newUsage
+		fmt.Println("\nUpdated", city, "to new usage:", newUsage, "MW")
+	} else {
+		fmt.Println("\nCity not found:", city)
+	}
+}
+
 func main() {
 	// Step 1: Create a map for city power usage
 	powerGrid := map[string]int{
@@ -140,8 +150,13 @@ func main() {
 	// Step 10: Show total power usage across all cities
 	TotalUsage(powerGrid)
 
-	// Step 11: Final map after all operations
+	// Step 11: Update a city’s power usage
+	UpdateUsage(powerGrid, "Manchester", 950)
+	UpdateUsage(powerGrid, "York", 600)
+
+	// Step 12: Final power grid after all operations
 	fmt.Println("\nFinal power grid:")
 	ShowPower(powerGrid)
 }
+
 
