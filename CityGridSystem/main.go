@@ -16,6 +16,7 @@ Questions:
 10. Add more UK cities and call all functions to test the system
 11. Write a function TotalUsage() to calculate total power usage across all cities
 12. Write a function UpdateUsage() to set a new power usage for a city if it exists
+13. Write a function FindCitiesBelow() to show all cities using less than a given threshold
 */
 
 func ShowPower(powerGrid map[string]int) {
@@ -88,6 +89,20 @@ func FindCitiesAbove(powerGrid map[string]int, threshold int) {
 	}
 }
 
+func FindCitiesBelow(powerGrid map[string]int, threshold int) {
+	fmt.Println("\nCities using less than", threshold, "MW:")
+	found := false
+	for city, usage := range powerGrid {
+		if usage < threshold {
+			fmt.Println(city, "-", usage, "MW")
+			found = true
+		}
+	}
+	if !found {
+		fmt.Println("No cities found below that usage level.")
+	}
+}
+
 func TotalUsage(powerGrid map[string]int) {
 	total := 0
 	for _, usage := range powerGrid {
@@ -118,6 +133,7 @@ func main() {
 		"Sheffield":   720,
 		"Newcastle":   710,
 		"Nottingham":  670,
+		"Cardiff":     640,
 	}
 
 	// Step 2: Show starting power usage
@@ -147,16 +163,20 @@ func main() {
 	// Step 9: Find all cities using more than 800 MW
 	FindCitiesAbove(powerGrid, 800)
 
-	// Step 10: Show total power usage across all cities
+	// Step 10: Show all cities using less than 700 MW
+	FindCitiesBelow(powerGrid, 700)
+
+	// Step 11: Show total power usage
 	TotalUsage(powerGrid)
 
-	// Step 11: Update a city’s power usage
+	// Step 12: Update a city’s power usage
 	UpdateUsage(powerGrid, "Manchester", 950)
 	UpdateUsage(powerGrid, "York", 600)
 
-	// Step 12: Final power grid after all operations
+	// Step 13: Final power grid after all operations
 	fmt.Println("\nFinal power grid:")
 	ShowPower(powerGrid)
 }
+
 
 
