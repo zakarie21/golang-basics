@@ -14,6 +14,7 @@ Questions:
 5. Write a function ShowFactory(factory []Robot) that loops and prints robot details
 6. Write a function AddRobot(factory []Robot, newRobot Robot) []Robot to add a new robot to the factory
 7. Write a function FindRobot(factory []Robot, id int) (Robot, error) that returns a robot by ID or an error if not found
+8. Write a function CountActiveRobots(factory []Robot) int to count the active robots in the factory
 */
 
 type Robot struct {
@@ -58,6 +59,16 @@ func FindRobot(factory []Robot, id int) (Robot, error) {
 	return Robot{}, errors.New("robot not found")
 }
 
+func CountActiveRobots(factory []Robot) int {
+	count := 0
+	for _, r := range factory {
+		if r.Active {
+			count = count + 1
+		}
+	}
+	return count
+}
+
 func main() {
 
 	// Step 1: Create a factory with a few robots
@@ -99,4 +110,9 @@ func main() {
 	} else {
 		fmt.Println("\nFound robot:", found.Model)
 	}
+
+	// Step 8: Count active robots
+	activeCount := CountActiveRobots(factory)
+	fmt.Println("\nNumber of active robots:", activeCount)
 }
+
