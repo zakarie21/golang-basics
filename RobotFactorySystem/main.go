@@ -15,6 +15,7 @@ Questions:
 6. Write a function AddRobot(factory []Robot, newRobot Robot) []Robot to add a new robot to the factory
 7. Write a function FindRobot(factory []Robot, id int) (Robot, error) that returns a robot by ID or an error if not found
 8. Write a function CountActiveRobots(factory []Robot) int to count the active robots in the factory
+9. Write a function DeactivateAll(factory []Robot) to deactivate all robots at once
 */
 
 type Robot struct {
@@ -69,6 +70,13 @@ func CountActiveRobots(factory []Robot) int {
 	return count
 }
 
+func DeactivateAll(factory []Robot) {
+	for i := range factory {
+		factory[i].Deactivate()
+	}
+	fmt.Println("\nAll robots have been deactivated.")
+}
+
 func main() {
 
 	// Step 1: Create a factory with a few robots
@@ -98,7 +106,7 @@ func main() {
 	ShowFactory(factory)
 
 	// Step 6: Add a new robot to the factory
-	newRobot := Robot{ID: 4, Model: "Robot-4", Active: false}
+	newRobot := Robot{ID: 4, Model: "Robot-4", Active: true}
 	factory = AddRobot(factory, newRobot)
 	fmt.Println("\nAdded new robot to factory:")
 	ShowFactory(factory)
@@ -114,5 +122,10 @@ func main() {
 	// Step 8: Count active robots
 	activeCount := CountActiveRobots(factory)
 	fmt.Println("\nNumber of active robots:", activeCount)
+
+	// Step 9: Deactivate all robots
+	DeactivateAll(factory)
+	fmt.Println("\nAfter deactivating all robots:")
+	ShowFactory(factory)
 }
 
