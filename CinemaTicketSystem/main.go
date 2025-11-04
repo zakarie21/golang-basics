@@ -12,10 +12,11 @@ Questions:
 3. Write AddMovie function to add movies to the cinema
 4. Write BuyTicket function that reduces TicketsAvailable or returns an error if sold out
 5. Write ShowRevenue function that loops through all movies and calculates total revenue
+6. Write FindMovie function that prints movie details or an error if not found
 */
 
 type Movie struct {
-	Title           string
+	Title            string
 	TicketsAvailable int
 	TicketPrice      float64
 }
@@ -46,6 +47,19 @@ func ShowRevenue(cinema []Movie, sold map[string]int) {
 		totalRevenue = totalRevenue + revenue
 	}
 	fmt.Println("Total revenue:", totalRevenue)
+}
+
+func FindMovie(cinema []Movie, title string) error {
+	for _, movie := range cinema {
+		if movie.Title == title {
+			fmt.Println("\nMovie Found:")
+			fmt.Println("Title:", movie.Title)
+			fmt.Println("Tickets Available:", movie.TicketsAvailable)
+			fmt.Println("Ticket Price:", movie.TicketPrice)
+			return nil
+		}
+	}
+	return errors.New("movie not found in cinema")
 }
 
 func main() {
@@ -79,4 +93,17 @@ func main() {
 	// Step 5: Show total revenue
 	fmt.Println("\nCinema Revenue:")
 	ShowRevenue(cinema, sold)
+
+	// Step 6: Find a movie in the cinema
+	fmt.Println()
+	err = FindMovie(cinema, "Interstellar")
+	if err != nil {
+		fmt.Println("Error:", err)
+	}
+
+	err = FindMovie(cinema, "Avatar")
+	if err != nil {
+		fmt.Println("Error:", err)
+	}
 }
+
