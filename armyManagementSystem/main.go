@@ -10,6 +10,7 @@ import (
 // 3. Write RemoveSoldier(soldiers []string, name string) ([]string, error) that removes a soldier or errors
 // 4. Write ListSoldiers(soldiers []string) that prints all the soldiers
 // 5. Write FindSoldier(soldiers []string, name string) error that checks if a soldier exists
+// 6. Write CountSoldiers(soldiers []string) that prints how many soldiers are in the army
 
 func AddSoldier(soldiers []string, name string) []string {
 	soldiers = append(soldiers, name)
@@ -48,6 +49,10 @@ func FindSoldier(soldiers []string, name string) error {
 	return errors.New("soldier not found")
 }
 
+func CountSoldiers(soldiers []string) {
+	fmt.Println("Total number of soldiers in the army:", len(soldiers))
+}
+
 func main() {
 	// Start with an empty slice
 	soldiers := []string{}
@@ -59,6 +64,9 @@ func main() {
 
 	// List them
 	ListSoldiers(soldiers)
+
+	// Count them
+	CountSoldiers(soldiers)
 
 	// Try to find a soldier
 	err := FindSoldier(soldiers, "Mike")
@@ -74,6 +82,9 @@ func main() {
 
 	// List again after removal
 	ListSoldiers(soldiers)
+
+	// Count again after removal
+	CountSoldiers(soldiers)
 
 	// Try to remove a soldier that doesn’t exist
 	soldiers, err = RemoveSoldier(soldiers, "Alex")
