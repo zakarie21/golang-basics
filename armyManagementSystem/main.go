@@ -11,6 +11,7 @@ import (
 // 4. Write ListSoldiers(soldiers []string) that prints all the soldiers
 // 5. Write FindSoldier(soldiers []string, name string) error that checks if a soldier exists
 // 6. Write CountSoldiers(soldiers []string) that prints how many soldiers are in the army
+// 7. Write ClearArmy(soldiers []string) []string that removes all soldiers from the army
 
 func AddSoldier(soldiers []string, name string) []string {
 	soldiers = append(soldiers, name)
@@ -20,7 +21,6 @@ func AddSoldier(soldiers []string, name string) []string {
 func RemoveSoldier(soldiers []string, name string) ([]string, error) {
 	for i := 0; i < len(soldiers); i++ {
 		if soldiers[i] == name {
-			// remove by slicing around index i
 			soldiers = append(soldiers[:i], soldiers[i+1:]...)
 			return soldiers, nil
 		}
@@ -53,14 +53,23 @@ func CountSoldiers(soldiers []string) {
 	fmt.Println("Total number of soldiers in the army:", len(soldiers))
 }
 
+func ClearArmy(soldiers []string) []string {
+	soldiers = []string{}
+	fmt.Println("All soldiers have been removed from the army.")
+	return soldiers
+}
+
 func main() {
 	// Start with an empty slice
 	soldiers := []string{}
 
 	// Add some soldiers
 	soldiers = AddSoldier(soldiers, "John")
+	soldiers = AddSoldier(soldiers, "Jack")
 	soldiers = AddSoldier(soldiers, "Mike")
-	soldiers = AddSoldier(soldiers, "Sara")
+	soldiers = AddSoldier(soldiers, "Sierra")
+	soldiers = AddSoldier(soldiers, "Romeo")
+	soldiers = AddSoldier(soldiers, "Nick")
 
 	// List them
 	ListSoldiers(soldiers)
@@ -69,7 +78,7 @@ func main() {
 	CountSoldiers(soldiers)
 
 	// Try to find a soldier
-	err := FindSoldier(soldiers, "Mike")
+	err := FindSoldier(soldiers, "Amy")
 	if err != nil {
 		fmt.Println("Error:", err)
 	}
@@ -87,8 +96,18 @@ func main() {
 	CountSoldiers(soldiers)
 
 	// Try to remove a soldier that doesn’t exist
-	soldiers, err = RemoveSoldier(soldiers, "Alex")
+	soldiers, err = RemoveSoldier(soldiers, "Bradley")
 	if err != nil {
 		fmt.Println("Error:", err)
 	}
+
+	// Clear the army
+	soldiers = ClearArmy(soldiers)
+
+	// Show after clearing
+	ListSoldiers(soldiers)
+
+	// Final count
+	CountSoldiers(soldiers)
 }
+
