@@ -25,7 +25,30 @@ func (u *Users) Save() error {
 	}
 
 	return nil
+}
 
+func (u *Users) Validate() error {
+	getUserQuery:= `select * from users where email=?`
+	row, err := db.DB.Query(getUserQuery,u.Email)
+	if err != nil {
+		return err
+	}
+
+	var userDetails Users
+	for row.Next() {
+		err = row.Scan(&userDetails.ID, &userDetails.Email, &userDetails.Password)
+	}
+	if err != nil {
+		return err
+	}
+
+	u.ID = userDetails.ID
+	err= utils.ValidatePassword([]byte(userDetails.Password), []byte(u.Password))
+	if err != nil{
+		return err
+	}
+	
+	return nil
 }
 
 
