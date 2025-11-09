@@ -12,6 +12,7 @@ Questions:
 3. Write AddMeal function to add a meal to the menu
 4. Write OrderMeal function to mark a meal as unavailable or return error if not found
 5. Write ListMenu function to show all meals
+6. Write FindMeal function to check if a meal exists in the menu and print its details
 */
 
 type Meal struct {
@@ -44,27 +45,50 @@ func ListMenu(menu []Meal) {
 	}
 }
 
+func FindMeal(menu []Meal, name string) error {
+	for _, meal := range menu {
+		if meal.Name == name {
+			fmt.Println("Found Meal:", meal.Name, "| Price:", meal.Price, "| Available:", meal.Available)
+			return nil
+		}
+	}
+	return errors.New("meal not found")
+}
+
 func main() {
-	//Create an empty menu (slice of meals)
+	// Create an empty menu (slice of meals)
 	menu := []Meal{}
 
-	// Step 2: Add meals to the menu
+	// Step 1: Add meals to the menu
 	menu = AddMeal(menu, Meal{Name: "Burger", Price: 5.99, Available: true})
 	menu = AddMeal(menu, Meal{Name: "Pizza", Price: 8.49, Available: true})
 	menu = AddMeal(menu, Meal{Name: "Salad", Price: 4.25, Available: true})
 
-	//Show the menu
+	// Step 2: Show the initial menu
 	fmt.Println("Initial Menu:")
 	ListMenu(menu)
 
-	//Order a meal
+	// Step 3: Order a meal
 	var err error
 	menu, err = OrderMeal(menu, "Pizza")
 	if err != nil {
 		fmt.Println("Error:", err)
 	}
 
-	//Show the updated menu
+	// Step 4: Show updated menu
 	fmt.Println("\nMenu After Ordering:")
 	ListMenu(menu)
+
+	// Step 5: Try finding a meal
+	fmt.Println("\nFinding a meal:")
+	err = FindMeal(menu, "Burger")
+	if err != nil {
+		fmt.Println("Error:", err)
+	}
+
+	// Step 6: Try finding a meal that doesn’t exist
+	err = FindMeal(menu, "Steak")
+	if err != nil {
+		fmt.Println("Error:", err)
+	}
 }
