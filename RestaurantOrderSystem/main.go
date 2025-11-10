@@ -13,6 +13,7 @@ Questions:
 4. Write OrderMeal function to mark a meal as unavailable or return error if not found
 5. Write ListMenu function to show all meals
 6. Write FindMeal function to check if a meal exists in the menu and print its details
+7. Write UpdatePrice function to change the price of a meal if it exists
 */
 
 type Meal struct {
@@ -55,6 +56,17 @@ func FindMeal(menu []Meal, name string) error {
 	return errors.New("meal not found")
 }
 
+func UpdatePrice(menu []Meal, name string, newPrice float64) ([]Meal, error) {
+	for i := 0; i < len(menu); i++ {
+		if menu[i].Name == name {
+			menu[i].Price = newPrice
+			fmt.Println("Price for", name, "updated to", newPrice)
+			return menu, nil
+		}
+	}
+	return menu, errors.New("meal not found")
+}
+
 func main() {
 	// Create an empty menu (slice of meals)
 	menu := []Meal{}
@@ -91,4 +103,20 @@ func main() {
 	if err != nil {
 		fmt.Println("Error:", err)
 	}
+
+	// Step 7: Update a meal’s price
+	menu, err = UpdatePrice(menu, "Salad", 5.50)
+	if err != nil {
+		fmt.Println("Error:", err)
+	}
+
+	// Step 8: Try updating a meal that doesn’t exist
+	menu, err = UpdatePrice(menu, "Pasta", 7.99)
+	if err != nil {
+		fmt.Println("Error:", err)
+	}
+
+	// Step 9: Show final menu
+	fmt.Println("\nFinal Menu:")
+	ListMenu(menu)
 }
