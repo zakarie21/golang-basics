@@ -14,6 +14,7 @@ Questions:
 5. Write ListMenu function to show all meals
 6. Write FindMeal function to check if a meal exists in the menu and print its details
 7. Write UpdatePrice function to change the price of a meal if it exists
+8. Write RestockMeal function to mark a meal as available again or return an error if not found
 */
 
 type Meal struct {
@@ -67,6 +68,20 @@ func UpdatePrice(menu []Meal, name string, newPrice float64) ([]Meal, error) {
 	return menu, errors.New("meal not found")
 }
 
+func RestockMeal(menu []Meal, name string) ([]Meal, error) {
+	for i := 0; i < len(menu); i++ {
+		if menu[i].Name == name {
+			if !menu[i].Available {
+				menu[i].Available = true
+				fmt.Println("Meal", name, "has been restocked and is now available again.")
+				return menu, nil
+			}
+			return menu, errors.New("meal is already available")
+		}
+	}
+	return menu, errors.New("meal not found")
+}
+
 func main() {
 	// Create an empty menu (slice of meals)
 	menu := []Meal{}
@@ -91,27 +106,27 @@ func main() {
 	fmt.Println("\nMenu After Ordering:")
 	ListMenu(menu)
 
-	// Step 5: Try finding a meal
+	// Step 5: Find a meal
 	fmt.Println("\nFinding a meal:")
 	err = FindMeal(menu, "Burger")
 	if err != nil {
 		fmt.Println("Error:", err)
 	}
 
-	// Step 6: Try finding a meal that doesn’t exist
-	err = FindMeal(menu, "Steak")
-	if err != nil {
-		fmt.Println("Error:", err)
-	}
-
-	// Step 7: Update a meal’s price
+	// Step 6: Update a meal’s price
 	menu, err = UpdatePrice(menu, "Salad", 5.50)
 	if err != nil {
 		fmt.Println("Error:", err)
 	}
 
-	// Step 8: Try updating a meal that doesn’t exist
-	menu, err = UpdatePrice(menu, "Pasta", 7.99)
+	// Step 7: Restock a meal (make it available again)
+	menu, err = RestockMeal(menu, "Pizza")
+	if err != nil {
+		fmt.Println("Error:", err)
+	}
+
+	// Step 8: Try to restock a meal that doesn’t exist
+	menu, err = RestockMeal(menu, "Sushi")
 	if err != nil {
 		fmt.Println("Error:", err)
 	}
