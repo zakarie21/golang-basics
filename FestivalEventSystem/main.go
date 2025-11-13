@@ -12,7 +12,8 @@ Questions:
 3. Write a method CheckIn() that sets Ready to true or returns an error if already checked in
 4. Write a method Perform() that sets Ready to false
 5. Write a function ShowLineup(lineup []Performer) that loops and prints performer details
-6. Write a function FindPerformer(lineup []Performer, name string) error that searches for a performer by name and prints their details or returns an error if not found
+6. Write a function FindPerformer(lineup []Performer, name string) error that searches for a performer by name
+7. Write a function RemovePerformer(lineup []Performer, name string) ([]Performer, error) that removes a performer or returns an error if not found
 */
 
 type Performer struct {
@@ -57,6 +58,16 @@ func FindPerformer(lineup []Performer, name string) error {
 	return errors.New("performer not found: " + name)
 }
 
+func RemovePerformer(lineup []Performer, name string) ([]Performer, error) {
+	for i := 0; i < len(lineup); i++ {
+		if lineup[i].Name == name {
+			lineup = append(lineup[:i], lineup[i+1:]...)
+			return lineup, nil
+		}
+	}
+	return lineup, errors.New("cannot remove performer: " + name + " not found")
+}
+
 func main() {
 	// Step 1: Create a lineup of performers
 	lineup := []Performer{
@@ -71,29 +82,34 @@ func main() {
 		fmt.Println("Error:", err)
 	}
 
-	// Step 3: Try checking in the same performer again (should trigger an error)
+	// Step 3: Try checking in the same performer again
 	err = lineup[0].CheckIn()
 	if err != nil {
 		fmt.Println("Error:", err)
 	}
 
-	// Step 4: Mark a performer as done performing
+	// Step 4: Mark performer as done performing
 	lineup[0].Perform()
 
-	// Step 5: Display all performer statuses
+	// Step 5: Display the lineup
 	fmt.Println("\nCurrent Festival Lineup:")
 	ShowLineup(lineup)
 
-	// Step 6: Find a performer in the lineup
-	fmt.Println("\nSearching for performer 'Artic Monkey':")
-	err = FindPerformer(lineup, "Artic Monkey")
+	// Step 6: Search for a performer
+	fmt.Println("\nSearching for Skrillex:")
+	err = FindPerformer(lineup, "Skrillex")
 	if err != nil {
 		fmt.Println("Error:", err)
 	}
 
-	fmt.Println("\nSearching for performer 'Beyonce':")
-	err = FindPerformer(lineup, "Beyonce")
+	// Step 7: Remove a performer
+	fmt.Println("\nRemoving performer Drake:")
+	lineup, err = RemovePerformer(lineup, "Drake")
 	if err != nil {
 		fmt.Println("Error:", err)
 	}
+
+	// Show updated lineup
+	fmt.Println("\nLineup After Removal:")
+	ShowLineup(lineup)
 }
