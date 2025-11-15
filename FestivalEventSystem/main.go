@@ -14,6 +14,7 @@ Questions:
 5. Write a function ShowLineup(lineup []Performer) that loops and prints performer details
 6. Write a function FindPerformer(lineup []Performer, name string) error that searches for a performer by name
 7. Write a function RemovePerformer(lineup []Performer, name string) ([]Performer, error) that removes a performer or returns an error if not found
+8. Write a function CountReady(lineup []Performer) int that returns how many performers are checked in
 */
 
 type Performer struct {
@@ -47,11 +48,11 @@ func ShowLineup(lineup []Performer) {
 func FindPerformer(lineup []Performer, name string) error {
 	for _, p := range lineup {
 		if p.Name == name {
-			status := "not ready"
-			if p.Ready {
-				status = "checked in"
+			status := "checked in"
+			if !p.Ready {
+				status = "not ready"
 			}
-			fmt.Println("Found performer:", p.Name, "| Genre:", p.Genre, "| Status:", status)
+			fmt.Println("Found:", p.Name, "| Genre:", p.Genre, "| Status:", status)
 			return nil
 		}
 	}
@@ -68,36 +69,51 @@ func RemovePerformer(lineup []Performer, name string) ([]Performer, error) {
 	return lineup, errors.New("cannot remove performer: " + name + " not found")
 }
 
+func CountReady(lineup []Performer) int {
+	count := 0
+	for _, p := range lineup {
+		if p.Ready {
+			count++
+		}
+	}
+	return count
+}
+
 func main() {
-	// Step 1: Create a lineup of performers
+
+	// Step 1: Create the festival lineup
 	lineup := []Performer{
 		{Name: "Artic Monkey", Genre: "Brit Pop", Ready: false},
 		{Name: "Skrillex", Genre: "EDM", Ready: false},
 		{Name: "Drake", Genre: "Rap", Ready: false},
+		{Name: "Taylor Swift", Genre: "Pop", Ready: false},
+		{Name: "Kanye West", Genre: "Rap", Ready: false},
+		{Name: "Yung Blud", Genre: "Rock", Ready: false},
 	}
 
-	// Step 2: Check in a performer
-	err := lineup[0].CheckIn()
+	// Step 2: Check in multiple performers
+	fmt.Println("\nChecking in Taylor Swift and Skrillex:")
+	lineup[3].CheckIn() // Taylor Swift
+	lineup[1].CheckIn() // Skrillex
+
+	// Step 3: Try checking in someone already checked in
+	fmt.Println("\nTrying to check in Skrillex again:")
+	err := lineup[1].CheckIn()
 	if err != nil {
 		fmt.Println("Error:", err)
 	}
 
-	// Step 3: Try checking in the same performer again
-	err = lineup[0].CheckIn()
-	if err != nil {
-		fmt.Println("Error:", err)
-	}
+	// Step 4: Performer finishes performing
+	fmt.Println("\nTaylor Swift performs:")
+	lineup[3].Perform()
 
-	// Step 4: Mark performer as done performing
-	lineup[0].Perform()
-
-	// Step 5: Display the lineup
-	fmt.Println("\nCurrent Festival Lineup:")
+	// Step 5: Display full lineup
+	fmt.Println("\nCurrent Lineup:")
 	ShowLineup(lineup)
 
 	// Step 6: Search for a performer
-	fmt.Println("\nSearching for Skrillex:")
-	err = FindPerformer(lineup, "Skrillex")
+	fmt.Println("\nSearching for Kanye West:")
+	err = FindPerformer(lineup, "Kanye West")
 	if err != nil {
 		fmt.Println("Error:", err)
 	}
@@ -109,7 +125,11 @@ func main() {
 		fmt.Println("Error:", err)
 	}
 
+	// Step 8: Count ready performers
+	fmt.Println("\nNumber of performers checked in:")
+	fmt.Println("Ready performers:", CountReady(lineup))
+
 	// Show updated lineup
-	fmt.Println("\nLineup After Removal:")
+	fmt.Println("\nFinal Lineup:")
 	ShowLineup(lineup)
 }
