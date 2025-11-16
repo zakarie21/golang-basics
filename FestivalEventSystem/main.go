@@ -15,6 +15,7 @@ Questions:
 6. Write a function FindPerformer(lineup []Performer, name string) error that searches for a performer by name
 7. Write a function RemovePerformer(lineup []Performer, name string) ([]Performer, error) that removes a performer or returns an error if not found
 8. Write a function CountReady(lineup []Performer) int that returns how many performers are checked in
+9. Write a function ListGenres(lineup []Performer) that prints all unique genres
 */
 
 type Performer struct {
@@ -79,6 +80,18 @@ func CountReady(lineup []Performer) int {
 	return count
 }
 
+// ⭐ NEW FUNCTION FOR QUESTION 9 — ONLY ADDITION
+func ListGenres(lineup []Performer) {
+	seen := make(map[string]bool)
+	fmt.Println("\nGenres in lineup:")
+	for _, p := range lineup {
+		if !seen[p.Genre] {
+			fmt.Println("-", p.Genre)
+			seen[p.Genre] = true
+		}
+	}
+}
+
 func main() {
 
 	// Step 1: Create the festival lineup
@@ -128,6 +141,9 @@ func main() {
 	// Step 8: Count ready performers
 	fmt.Println("\nNumber of performers checked in:")
 	fmt.Println("Ready performers:", CountReady(lineup))
+
+	// ⭐ Step 9: List genres (ONLY NEW CALL)
+	ListGenres(lineup)
 
 	// Show updated lineup
 	fmt.Println("\nFinal Lineup:")
