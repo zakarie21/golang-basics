@@ -15,7 +15,8 @@ Questions:
 6. Write a function FindPerformer(lineup []Performer, name string) error that searches for a performer by name
 7. Write a function RemovePerformer(lineup []Performer, name string) ([]Performer, error) that removes a performer or returns an error if not found
 8. Write a function CountReady(lineup []Performer) int that returns how many performers are checked in
-9. Write a function ListGenres(lineup []Performer) that prints all unique genres
+9. Write a function AddPerformer(lineup []Performer, p Performer) []Performer that appends a new performer to the lineup
+10. Write a function CountByGenre(lineup []Performer, genre string) int that returns how many performers belong to a given genre
 */
 
 type Performer struct {
@@ -80,16 +81,19 @@ func CountReady(lineup []Performer) int {
 	return count
 }
 
-// ⭐ NEW FUNCTION FOR QUESTION 9 — ONLY ADDITION
-func ListGenres(lineup []Performer) {
-	seen := make(map[string]bool)
-	fmt.Println("\nGenres in lineup:")
+func AddPerformer(lineup []Performer, p Performer) []Performer {
+	return append(lineup, p)
+}
+
+
+func CountByGenre(lineup []Performer, genre string) int {
+	count := 0
 	for _, p := range lineup {
-		if !seen[p.Genre] {
-			fmt.Println("-", p.Genre)
-			seen[p.Genre] = true
+		if p.Genre == genre {
+			count++
 		}
 	}
+	return count
 }
 
 func main() {
@@ -120,7 +124,7 @@ func main() {
 	fmt.Println("\nTaylor Swift performs:")
 	lineup[3].Perform()
 
-	// Step 5: Display full lineup
+	// Step 5: Display the lineup
 	fmt.Println("\nCurrent Lineup:")
 	ShowLineup(lineup)
 
@@ -142,10 +146,15 @@ func main() {
 	fmt.Println("\nNumber of performers checked in:")
 	fmt.Println("Ready performers:", CountReady(lineup))
 
-	// ⭐ Step 9: List genres (ONLY NEW CALL)
-	ListGenres(lineup)
+	// Step 9: Add a new performer
+	fmt.Println("\nAdding a new performer: Billie Eilish")
+	lineup = AddPerformer(lineup, Performer{Name: "Billie Eilish", Genre: "Pop", Ready: true})
 
-	// Show updated lineup
+	// Step 10: Count by genre
+	fmt.Println("\nNumber of Rap performers:", CountByGenre(lineup, "Rap"))
+
+	// Show final lineup
 	fmt.Println("\nFinal Lineup:")
 	ShowLineup(lineup)
 }
+
