@@ -13,6 +13,7 @@ Questions:
 5. Write a function FindArtifact(collection []Artifact, name string) that searches by name and returns an error if not found.
 6. Write a function CountOnDisplay(collection []Artifact) int that returns the number of artifacts currently on display.
 7. Write a function OldestArtifact(collection []Artifact) Artifact that returns the artifact with the highest age.
+8. Write a function CountNewArtifacts(collection []Artifact) int that returns how many artifacts are younger than 100 years.
 */
 
 type Artifact struct {
@@ -67,7 +68,6 @@ func CountOnDisplay(collection []Artifact) int {
 	return count
 }
 
-
 func OldestArtifact(collection []Artifact) Artifact {
 	if len(collection) == 0 {
 		return Artifact{}
@@ -80,6 +80,17 @@ func OldestArtifact(collection []Artifact) Artifact {
 		}
 	}
 	return oldest
+}
+
+
+func CountNewArtifacts(collection []Artifact) int {
+	count := 0
+	for _, item := range collection {
+		if item.Age < 100 {
+			count++
+		}
+	}
+	return count
 }
 
 func main() {
@@ -111,7 +122,9 @@ func main() {
 
 	fmt.Println("\nNumber of artifacts on display:", CountOnDisplay(collection))
 
-	
 	oldest := OldestArtifact(collection)
 	fmt.Printf("\nOldest artifact: %s (Age: %d)\n", oldest.Name, oldest.Age)
+
+	
+	fmt.Println("\nArtifacts younger than 100 years:", CountNewArtifacts(collection))
 }
