@@ -13,7 +13,8 @@ Questions:
 5. Write a function FindArtifact(collection []Artifact, name string) that searches by name and returns an error if not found.
 6. Write a function CountOnDisplay(collection []Artifact) int that returns the number of artifacts currently on display.
 7. Write a function OldestArtifact(collection []Artifact) Artifact that returns the artifact with the highest age.
-8. Write a function CountNewArtifacts(collection []Artifact) int that returns how many artifacts are younger than 100 years.
+8. Write a function CountNewArtifacts(collection []Artifact, limit int) int that returns how many artifacts are newer than the given age limit.
+9. Write a function AverageAge(collection []Artifact) float64 that returns the average age of all artifacts.
 */
 
 type Artifact struct {
@@ -82,15 +83,26 @@ func OldestArtifact(collection []Artifact) Artifact {
 	return oldest
 }
 
-
-func CountNewArtifacts(collection []Artifact) int {
+func CountNewArtifacts(collection []Artifact, limit int) int {
 	count := 0
 	for _, item := range collection {
-		if item.Age < 100 {
+		if item.Age < limit {
 			count++
 		}
 	}
 	return count
+}
+
+
+func AverageAge(collection []Artifact) float64 {
+	if len(collection) == 0 {
+		return 0
+	}
+	total := 0
+	for _, item := range collection {
+		total += item.Age
+	}
+	return float64(total) / float64(len(collection))
 }
 
 func main() {
@@ -126,5 +138,5 @@ func main() {
 	fmt.Printf("\nOldest artifact: %s (Age: %d)\n", oldest.Name, oldest.Age)
 
 	
-	fmt.Println("\nArtifacts younger than 100 years:", CountNewArtifacts(collection))
+	fmt.Printf("\nAverage artifact age: %.2f years\n", AverageAge(collection))
 }
