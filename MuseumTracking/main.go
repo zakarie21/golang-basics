@@ -15,6 +15,7 @@ Questions:
 7. Write a function OldestArtifact(collection []Artifact) Artifact that returns the artifact with the highest age.
 8. Write a function CountNewArtifacts(collection []Artifact, limit int) int that returns how many artifacts are newer than the given age limit.
 9. Write a function AverageAge(collection []Artifact) float64 that returns the average age of all artifacts.
+10. Write a function YoungestArtifact(collection []Artifact) Artifact that returns the artifact with the lowest age.
 */
 
 type Artifact struct {
@@ -93,7 +94,6 @@ func CountNewArtifacts(collection []Artifact, limit int) int {
 	return count
 }
 
-
 func AverageAge(collection []Artifact) float64 {
 	if len(collection) == 0 {
 		return 0
@@ -103,6 +103,21 @@ func AverageAge(collection []Artifact) float64 {
 		total += item.Age
 	}
 	return float64(total) / float64(len(collection))
+}
+
+
+func YoungestArtifact(collection []Artifact) Artifact {
+	if len(collection) == 0 {
+		return Artifact{}
+	}
+
+	youngest := collection[0]
+	for _, item := range collection {
+		if item.Age < youngest.Age {
+			youngest = item
+		}
+	}
+	return youngest
 }
 
 func main() {
@@ -137,6 +152,9 @@ func main() {
 	oldest := OldestArtifact(collection)
 	fmt.Printf("\nOldest artifact: %s (Age: %d)\n", oldest.Name, oldest.Age)
 
-	
 	fmt.Printf("\nAverage artifact age: %.2f years\n", AverageAge(collection))
+
+	
+	youngest := YoungestArtifact(collection)
+	fmt.Printf("\nYoungest artifact: %s (Age: %d)\n", youngest.Name, youngest.Age)
 }
