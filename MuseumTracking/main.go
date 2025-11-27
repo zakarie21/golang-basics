@@ -16,6 +16,7 @@ Questions:
 8. Write a function CountNewArtifacts(collection []Artifact, limit int) int that returns how many artifacts are newer than the given age limit.
 9. Write a function AverageAge(collection []Artifact) float64 that returns the average age of all artifacts.
 10. Write a function YoungestArtifact(collection []Artifact) Artifact that returns the artifact with the lowest age.
+11. Write a function DisplayAll(collection *[]Artifact) that sets OnDisplay = true for every artifact older than 50.
 */
 
 type Artifact struct {
@@ -105,7 +106,6 @@ func AverageAge(collection []Artifact) float64 {
 	return float64(total) / float64(len(collection))
 }
 
-
 func YoungestArtifact(collection []Artifact) Artifact {
 	if len(collection) == 0 {
 		return Artifact{}
@@ -120,6 +120,15 @@ func YoungestArtifact(collection []Artifact) Artifact {
 	return youngest
 }
 
+
+func DisplayAll(collection *[]Artifact) {
+	for i := range *collection {
+		if (*collection)[i].Age > 50 {
+			(*collection)[i].OnDisplay = true
+		}
+	}
+}
+
 func main() {
 
 	collection := []Artifact{}
@@ -132,29 +141,43 @@ func main() {
 	fmt.Println("Collection before:")
 	showCollection(collection)
 
+	// Call Display()
 	collection[0].Display()
 	collection[1].Display()
 	collection[3].Display()
 
-	fmt.Println("Collection after:")
+	fmt.Println("Collection after initial displays:")
 	showCollection(collection)
 
+	// Show Display() on artifact too new
 	fmt.Println("")
 	collection[2].Display()
 	showCollection(collection)
 
+	// Call FindArtifact()
 	fmt.Println("")
 	FindArtifact(collection, "Bible")
 	FindArtifact(collection, "Omar")
 
+	// Call CountOnDisplay()
 	fmt.Println("\nNumber of artifacts on display:", CountOnDisplay(collection))
 
+	// Call OldestArtifact()
 	oldest := OldestArtifact(collection)
 	fmt.Printf("\nOldest artifact: %s (Age: %d)\n", oldest.Name, oldest.Age)
 
+	// Call CountNewArtifacts()  (Question 8)
+	fmt.Printf("\nArtifacts newer than 100 years: %d\n", CountNewArtifacts(collection, 100))
+
+	// Call AverageAge() (Question 9)
 	fmt.Printf("\nAverage artifact age: %.2f years\n", AverageAge(collection))
 
-	
+	// Call YoungestArtifact() (Question 10)
 	youngest := YoungestArtifact(collection)
 	fmt.Printf("\nYoungest artifact: %s (Age: %d)\n", youngest.Name, youngest.Age)
+
+	// Call DisplayAll() (Question 11)
+	fmt.Println("\nDisplaying ALL eligible artifacts:")
+	DisplayAll(&collection)
+	showCollection(collection)
 }
