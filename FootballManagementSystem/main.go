@@ -12,6 +12,7 @@ Questions:
 3. Write AddPlayer function to add new players to the team
 4. Write UpdateGoals function to increase a player’s goals or return an error if not found
 5. Use a map called teamStats to track total goals and players, and write ShowStats to print it
+6. Write a function FindTopScorer(team []Player) Player that returns the player with the highest number of goals.
 */
 
 type Player struct {
@@ -50,6 +51,21 @@ func ShowStats(team []Player) {
 	fmt.Println("Team Stats:", teamStats)
 }
 
+// New Question #6 implementation
+func FindTopScorer(team []Player) Player {
+	if len(team) == 0 {
+		return Player{}
+	}
+
+	top := team[0]
+	for _, player := range team {
+		if player.Goals > top.Goals {
+			top = player
+		}
+	}
+	return top
+}
+
 func main() {
 	// Step 1: Create an empty slice for the team
 	team := []Player{}
@@ -77,5 +93,10 @@ func main() {
 	for _, player := range team {
 		fmt.Println("Name:", player.Name, "| Position:", player.Position, "| Goals:", player.Goals)
 	}
+	fmt.Println("")
 	ShowStats(team)
+	fmt.Println("")
+	// Step 6: Call FindTopScorer
+	top := FindTopScorer(team)
+	fmt.Printf("Top Scorer: %s with %d goals\n", top.Name, top.Goals)
 }
