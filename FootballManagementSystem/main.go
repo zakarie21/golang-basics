@@ -14,6 +14,7 @@ Questions:
 5. Use a map called teamStats to track total goals and players, and write ShowStats to print it
 6. Write a function GetTopScorer(team []Player) Player that returns the player with the most goals.
 7. Write a function FindPlayersByPosition that returns all players who play in a given position.
+8. Write a function RemovePlayer(team []Player, name string) ([]Player, error) that removes a player by name or returns an error if not found.
 */
 
 type Player struct {
@@ -30,8 +31,7 @@ func AddPlayer(team []Player, player Player) []Player {
 func UpdateGoals(team []Player, name string, goals int) ([]Player, error) {
 	for i := 0; i < len(team); i++ {
 		if team[i].Name == name {
-			newGoalTotal := team[i].Goals + goals
-			team[i].Goals = newGoalTotal
+			team[i].Goals += goals
 			return team, nil
 		}
 	}
@@ -43,7 +43,7 @@ func ShowStats(team []Player) {
 	totalGoals := 0
 
 	for _, player := range team {
-		totalGoals = totalGoals + player.Goals
+		totalGoals += player.Goals
 	}
 
 	teamStats["TotalGoals"] = totalGoals
@@ -66,7 +66,6 @@ func GetTopScorer(team []Player) Player {
 	return top
 }
 
-// 🔥 NEW FUNCTION (Question #7)
 func FindPlayersByPosition(team []Player, position string) []Player {
 	var result []Player
 	for _, p := range team {
@@ -77,12 +76,23 @@ func FindPlayersByPosition(team []Player, position string) []Player {
 	return result
 }
 
+
+func RemovePlayer(team []Player, name string) ([]Player, error) {
+	for i := 0; i < len(team); i++ {
+		if team[i].Name == name {
+			team = append(team[:i], team[i+1:]...)
+			return team, nil
+		}
+	}
+	return team, errors.New("player not found")
+}
+
 func main() {
 	team := []Player{}
 
-	team = AddPlayer(team, Player{Name: "Ronaldo", Position: "Striker", Goals: 5})
-	team = AddPlayer(team, Player{Name: "Messi", Position: "Centre Forward", Goals: 7})
-	team = AddPlayer(team, Player{Name: "Modric", Position: "Midfield", Goals: 3})
+	team = AddPlayer(team, Player{Name: "Ronaldo", Position: "Forward", Goals: 5})
+	team = AddPlayer(team, Player{Name: "Messi", Position: "Forward", Goals: 7})
+	team = AddPlayer(team, Player{Name: "Modric", Position: "Midfielder", Goals: 3})
 
 	fmt.Println("Initial Team:")
 	for _, player := range team {
@@ -101,9 +111,15 @@ func main() {
 	}
 	ShowStats(team)
 
-	// 🔥 NEW FUNCTION CALL
-	fmt.Println("\nPlayers in Midfield position:")
-	for _, p := range FindPlayersByPosition(team, "Midfield") {
-		fmt.Println(p.Name, "-", p.Position)
+	
+	fmt.Println("\nRemoving Player: Modric")
+	team, err = RemovePlayer(team, "Modric")
+	if err != nil {
+		fmt.Println("Error:", err)
+	}
+
+	fmt.Println("\nTeam After Removal:")
+	for _, player := range team {
+		fmt.Println("Name:", player.Name, "| Position:", player.Position, "| Goals:", player.Goals)
 	}
 }
