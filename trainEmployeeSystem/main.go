@@ -10,6 +10,7 @@ import (
 // 3. RemoveEmployee: remove employee or error if not found
 // 4. ListEmployees: print all employees
 // 5. FindEmployee: check if employee exists or error
+// 6. CountEmployees: return how many employees are in the list
 
 func AddEmployee(employees []string, name string) []string {
 	employees = append(employees, name)
@@ -47,6 +48,11 @@ func FindEmployee(employees []string, name string) error {
 	return errors.New("employee not found")
 }
 
+
+func CountEmployees(employees []string) int {
+	return len(employees)
+}
+
 func main() {
 	employees := []string{}
 
@@ -57,6 +63,9 @@ func main() {
 
 	// List employees
 	ListEmployees(employees)
+
+	// Show count
+	fmt.Println("Total employees:", CountEmployees(employees))
 
 	// Find one
 	err := FindEmployee(employees, "Bob")
@@ -72,6 +81,9 @@ func main() {
 
 	// List again
 	ListEmployees(employees)
+
+	// Show count again
+	fmt.Println("Total employees:", CountEmployees(employees))
 
 	// Try to remove someone not there
 	employees, err = RemoveEmployee(employees, "David")
