@@ -12,6 +12,7 @@ import (
 // 5. FindEmployee: check if employee exists or error
 // 6. CountEmployees: return how many employees are in the list
 // 7. ClearEmployees: remove all employees from the list
+// 8. GetEmployeeIndex: return the index of an employee or -1 if not found
 
 func AddEmployee(employees []string, name string) []string {
 	employees = append(employees, name)
@@ -57,6 +58,16 @@ func ClearEmployees(employees []string) []string {
 	return []string{}
 }
 
+
+func GetEmployeeIndex(employees []string, name string) int {
+	for i := 0; i < len(employees); i++ {
+		if employees[i] == name {
+			return i
+		}
+	}
+	return -1
+}
+
 func main() {
 	employees := []string{}
 
@@ -95,4 +106,7 @@ func main() {
 	employees = ClearEmployees(employees)
 	fmt.Println("After clearing:")
 	ListEmployees(employees)
+
+	// Demo new function
+	fmt.Println("Index of Charlie:", GetEmployeeIndex(employees, "Charlie"))
 }
