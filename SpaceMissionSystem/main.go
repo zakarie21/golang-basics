@@ -12,6 +12,7 @@ Questions:
 3. Write a method Launch() that sets Launched to true or returns an error if already launched
 4. Write a method Land() that sets Launched to false
 5. Write a function ShowFleet(fleet []Spaceship) that loops and prints all ships' details
+6. CountLaunched: return how many ships in the fleet are launched
 */
 
 type Spaceship struct {
@@ -42,6 +43,16 @@ func ShowFleet(fleet []Spaceship) {
 	}
 }
 
+func CountLaunched(fleet []Spaceship) int {
+	total := 0
+	for _, ship := range fleet {
+		if ship.Launched {
+			total++
+		}
+	}
+	return total
+}
+
 func main() {
 	// Step 1: Create a fleet of spaceships
 	fleet := []Spaceship{
@@ -68,4 +79,7 @@ func main() {
 	// Step 5: Show the current fleet status
 	fmt.Println("\nFleet Status:")
 	ShowFleet(fleet)
+
+	// count launched ships 
+	fmt.Println("\nLaunched ships:", CountLaunched(fleet))
 }
