@@ -13,6 +13,7 @@ Questions:
 4. Write a method Land() that sets Launched to false
 5. Write a function ShowFleet(fleet []Spaceship) that loops and prints all ships' details
 6. CountLaunched: return how many ships in the fleet are launched
+7. FindShipByName: return a pointer to a ship by name or an error if not found
 */
 
 type Spaceship struct {
@@ -53,6 +54,16 @@ func CountLaunched(fleet []Spaceship) int {
 	return total
 }
 
+// NEW FUNCTION (Question 7)
+func FindShipByName(fleet []Spaceship, name string) (*Spaceship, error) {
+	for i := range fleet {
+		if fleet[i].Name == name {
+			return &fleet[i], nil
+		}
+	}
+	return nil, errors.New("ship not found: " + name)
+}
+
 func main() {
 	// Step 1: Create a fleet of spaceships
 	fleet := []Spaceship{
@@ -80,6 +91,14 @@ func main() {
 	fmt.Println("\nFleet Status:")
 	ShowFleet(fleet)
 
-	// count launched ships 
+	// count launched ships
 	fmt.Println("\nLaunched ships:", CountLaunched(fleet))
+
+	// use new FindShipByName function
+	ship, err := FindShipByName(fleet, "Houston")
+	if err != nil {
+		fmt.Println("Error:", err)
+	} else {
+		fmt.Println("\nFound ship:", ship.Name)
+	}
 }
