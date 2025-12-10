@@ -14,6 +14,7 @@ Questions:
 5. Write a function ShowFleet(fleet []Spaceship) that loops and prints all ships' details
 6. CountLaunched: return how many ships in the fleet are launched
 7. FindShipByName: return a pointer to a ship by name or an error if not found
+8. ListUnlaunchedShips: return all ships that have not been launched
 */
 
 type Spaceship struct {
@@ -64,6 +65,17 @@ func FindShipByName(fleet []Spaceship, name string) (*Spaceship, error) {
 	return nil, errors.New("ship not found: " + name)
 }
 
+// NEW FUNCTION (Question 8)
+func ListUnlaunchedShips(fleet []Spaceship) []Spaceship {
+	var result []Spaceship
+	for _, ship := range fleet {
+		if !ship.Launched {
+			result = append(result, ship)
+		}
+	}
+	return result
+}
+
 func main() {
 	// Step 1: Create a fleet of spaceships
 	fleet := []Spaceship{
@@ -100,5 +112,11 @@ func main() {
 		fmt.Println("Error:", err)
 	} else {
 		fmt.Println("\nFound ship:", ship.Name)
+	}
+
+	// use new ListUnlaunchedShips function
+	fmt.Println("\nUnlaunched Ships:")
+	for _, s := range ListUnlaunchedShips(fleet) {
+		fmt.Println("-", s.Name)
 	}
 }
