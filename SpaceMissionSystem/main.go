@@ -15,6 +15,7 @@ Questions:
 6. CountLaunched: return how many ships in the fleet are launched
 7. FindShipByName: return a pointer to a ship by name or an error if not found
 8. ListUnlaunchedShips: return all ships that have not been launched
+9. GetTotalCrew: return the total crew count across all ships
 */
 
 type Spaceship struct {
@@ -55,7 +56,7 @@ func CountLaunched(fleet []Spaceship) int {
 	return total
 }
 
-// NEW FUNCTION (Question 7)
+// Question 7
 func FindShipByName(fleet []Spaceship, name string) (*Spaceship, error) {
 	for i := range fleet {
 		if fleet[i].Name == name {
@@ -65,7 +66,7 @@ func FindShipByName(fleet []Spaceship, name string) (*Spaceship, error) {
 	return nil, errors.New("ship not found: " + name)
 }
 
-// NEW FUNCTION (Question 8)
+// Question 8
 func ListUnlaunchedShips(fleet []Spaceship) []Spaceship {
 	var result []Spaceship
 	for _, ship := range fleet {
@@ -74,6 +75,15 @@ func ListUnlaunchedShips(fleet []Spaceship) []Spaceship {
 		}
 	}
 	return result
+}
+
+// (Question 9)
+func GetTotalCrew(fleet []Spaceship) int {
+	total := 0
+	for _, ship := range fleet {
+		total += ship.Crew
+	}
+	return total
 }
 
 func main() {
@@ -106,7 +116,7 @@ func main() {
 	// count launched ships
 	fmt.Println("\nLaunched ships:", CountLaunched(fleet))
 
-	// use new FindShipByName function
+	// use FindShipByName
 	ship, err := FindShipByName(fleet, "Houston")
 	if err != nil {
 		fmt.Println("Error:", err)
@@ -114,9 +124,12 @@ func main() {
 		fmt.Println("\nFound ship:", ship.Name)
 	}
 
-	// use new ListUnlaunchedShips function
+	// use ListUnlaunchedShips
 	fmt.Println("\nUnlaunched Ships:")
 	for _, s := range ListUnlaunchedShips(fleet) {
 		fmt.Println("-", s.Name)
 	}
+
+	// use GetTotalCrew
+	fmt.Println("\nTotal crew across all ships:", GetTotalCrew(fleet))
 }
