@@ -16,6 +16,7 @@ Questions:
 7. FindShipByName: return a pointer to a ship by name or an error if not found
 8. ListUnlaunchedShips: return all ships that have not been launched
 9. GetTotalCrew: return the total crew count across all ships
+10. GetLargestCrewShip: return the ship with the highest crew count
 */
 
 type Spaceship struct {
@@ -77,7 +78,7 @@ func ListUnlaunchedShips(fleet []Spaceship) []Spaceship {
 	return result
 }
 
-// (Question 9)
+// Question 9
 func GetTotalCrew(fleet []Spaceship) int {
 	total := 0
 	for _, ship := range fleet {
@@ -86,37 +87,45 @@ func GetTotalCrew(fleet []Spaceship) int {
 	return total
 }
 
+// Question 10
+func GetLargestCrewShip(fleet []Spaceship) Spaceship {
+	if len(fleet) == 0 {
+		return Spaceship{}
+	}
+
+	largest := fleet[0]
+	for _, ship := range fleet {
+		if ship.Crew > largest.Crew {
+			largest = ship
+		}
+	}
+	return largest
+}
+
 func main() {
-	// Step 1: Create a fleet of spaceships
 	fleet := []Spaceship{
 		{Name: "Apollo", Crew: 13, Launched: false},
 		{Name: "Houston", Crew: 5, Launched: false},
 		{Name: "Doomsday", Crew: 6, Launched: false},
 	}
 
-	// Step 2: Launch the Apollo
 	err := fleet[0].Launch()
 	if err != nil {
 		fmt.Println("Error:", err)
 	}
 
-	// Step 3: Try launching Apollo again (should show an error)
 	err = fleet[0].Launch()
 	if err != nil {
 		fmt.Println("Error:", err)
 	}
 
-	// Step 4: Land the Apollo
 	fleet[0].Land()
 
-	// Step 5: Show the current fleet status
 	fmt.Println("\nFleet Status:")
 	ShowFleet(fleet)
 
-	// count launched ships
 	fmt.Println("\nLaunched ships:", CountLaunched(fleet))
 
-	// use FindShipByName
 	ship, err := FindShipByName(fleet, "Houston")
 	if err != nil {
 		fmt.Println("Error:", err)
@@ -124,12 +133,13 @@ func main() {
 		fmt.Println("\nFound ship:", ship.Name)
 	}
 
-	// use ListUnlaunchedShips
 	fmt.Println("\nUnlaunched Ships:")
 	for _, s := range ListUnlaunchedShips(fleet) {
 		fmt.Println("-", s.Name)
 	}
 
-	// use GetTotalCrew
 	fmt.Println("\nTotal crew across all ships:", GetTotalCrew(fleet))
+
+	largest := GetLargestCrewShip(fleet)
+	fmt.Println("\nShip with largest crew:", largest.Name)
 }
