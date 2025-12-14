@@ -12,6 +12,7 @@ Questions:
 3. Write a method ResetFeeding() that sets Fed to false
 4. Write a function ShowAnimalStatus(a Animal) that prints name, type, and feeding status
 5. In main(), create animals, feed one, try feeding again (error), and reset feeding
+6. Write a method IsFed() that returns whether the animal has been fed
 */
 
 type Animal struct {
@@ -30,6 +31,11 @@ func (a *Animal) Feed() error {
 
 func (a *Animal) ResetFeeding() {
 	a.Fed = false
+}
+
+// Question 6
+func (a Animal) IsFed() bool {
+	return a.Fed
 }
 
 func ShowAnimalStatus(a Animal) {
@@ -73,4 +79,7 @@ func main() {
 	ShowAnimalStatus(cow)
 	ShowAnimalStatus(chicken)
 	ShowAnimalStatus(sheep)
+
+	// Use new IsFed method
+	fmt.Println("\nIs cow fed?", cow.IsFed())
 }
