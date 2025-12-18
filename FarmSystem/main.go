@@ -15,6 +15,7 @@ Questions:
 6. Write a method IsFed() that returns whether the animal has been fed
 7. Write a method Status() that returns "fed" or "hungry" based on the animal’s feeding state
 8. Write a method IsHungry() that returns true if the animal has not been fed
+git 
 */
 
 type Animal struct {
@@ -51,6 +52,11 @@ func (a Animal) Status() string {
 // Question 8
 func (a Animal) IsHungry() bool {
 	return !a.Fed
+}
+
+// Question 9
+func (a Animal) Describe() string {
+	return fmt.Sprintf("%s the %s is currently %s", a.Name, a.Type, a.Status())
 }
 
 func ShowAnimalStatus(a Animal) {
@@ -103,4 +109,8 @@ func main() {
 
 	// Use new IsHungry method
 	fmt.Println("Is cow hungry?", cow.IsHungry())
+
+	// Use new Describe method
+	fmt.Println("\nAnimal description:")
+	fmt.Println(cow.Describe())
 }
