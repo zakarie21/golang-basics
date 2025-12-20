@@ -12,6 +12,7 @@ Questions:
 3. Write AddBook function to add a book to library
 4. Write BorrowBook function with error if not found
 5. Define Printable interface and implement PrintInfo for Book
+6. Write ReturnBook function to mark a borrowed book as available
 */
 
 type Book struct {
@@ -46,13 +47,27 @@ func BorrowBook(library []Book, title string) ([]Book, error) {
 	return library, errors.New("book not found")
 }
 
+// Question 6
+func ReturnBook(library []Book, title string) ([]Book, error) {
+	for i := 0; i < len(library); i++ {
+		if library[i].Title == title {
+			if !library[i].Available {
+				library[i].Available = true
+				return library, nil
+			}
+			return library, errors.New("book was not borrowed")
+		}
+	}
+	return library, errors.New("book not found")
+}
+
 func main() {
 	// Create an empty library (slice of books)
 	library := []Book{}
 
 	// Add some books
-	library = AddBook(library, Book{Title: "1984", Author: "George Orwell", Available: true})
-	library = AddBook(library, Book{Title: "Moby Dick", Author: "Herman Melville", Available: true})
+	library = AddBook(library, Book{Title: "Lord of the Rings", Author: "Tolkien", Available: true})
+	library = AddBook(library, Book{Title: "Harry Potter", Author: "JK Rowling", Available: true})
 
 	// Show all books in the library
 	fmt.Println("Initial Library:")
@@ -62,13 +77,25 @@ func main() {
 
 	// Try borrowing a book
 	var err error
-	library, err = BorrowBook(library, "1984")
+	library, err = BorrowBook(library, "Harry Potter")
 	if err != nil {
 		fmt.Println("Error:", err)
 	}
 
 	// Show library again after borrowing
 	fmt.Println("\nLibrary After Borrowing:")
+	for _, book := range library {
+		book.PrintInfo()
+	}
+
+	// Return the borrowed book
+	library, err = ReturnBook(library, "Harry Potter")
+	if err != nil {
+		fmt.Println("Error:", err)
+	}
+
+	// Show library after returning
+	fmt.Println("\nLibrary After Returning:")
 	for _, book := range library {
 		book.PrintInfo()
 	}
