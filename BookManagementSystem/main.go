@@ -14,6 +14,7 @@ Questions:
 5. Define Printable interface and implement PrintInfo for Book
 6. Write ReturnBook function to mark a borrowed book as available
 7. CountAvailableBooks: return how many books are currently available
+8. FindBookByTitle: return a pointer to a book by title or an error if not found
 */
 
 type Book struct {
@@ -73,6 +74,16 @@ func CountAvailableBooks(library []Book) int {
 	return count
 }
 
+// Question 8
+func FindBookByTitle(library []Book, title string) (*Book, error) {
+	for i := range library {
+		if library[i].Title == title {
+			return &library[i], nil
+		}
+	}
+	return nil, errors.New("book not found")
+}
+
 func main() {
 	// Create an empty library (slice of books)
 	library := []Book{}
@@ -112,6 +123,15 @@ func main() {
 		book.PrintInfo()
 	}
 
-	// Use new CountAvailableBooks function
+	// Use CountAvailableBooks
 	fmt.Println("\nAvailable books:", CountAvailableBooks(library))
+
+	// Use FindBookByTitle
+	foundBook, err := FindBookByTitle(library, "Lord of the Rings")
+	if err != nil {
+		fmt.Println("Error:", err)
+	} else {
+		fmt.Println("\nFound book:")
+		foundBook.PrintInfo()
+	}
 }
