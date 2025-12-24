@@ -17,6 +17,7 @@ Questions:
 8. FindBookByTitle: return a pointer to a book by title or an error if not found
 9. ListBorrowedBooks: return all books that are currently borrowed
 10. CountBorrowedBooks: return how many books are currently borrowed
+11. ListAvailableBooks: return all books that are currently available
 */
 
 type Book struct {
@@ -108,6 +109,17 @@ func CountBorrowedBooks(library []Book) int {
 	return count
 }
 
+// Question 11
+func ListAvailableBooks(library []Book) []Book {
+	var available []Book
+	for _, book := range library {
+		if book.Available {
+			available = append(available, book)
+		}
+	}
+	return available
+}
+
 func main() {
 	// Create an empty library (slice of books)
 	library := []Book{}
@@ -171,4 +183,10 @@ func main() {
 
 	// Use CountBorrowedBooks
 	fmt.Println("\nTotal borrowed books:", CountBorrowedBooks(library))
+
+	// Use ListAvailableBooks
+	fmt.Println("\nAvailable books list:")
+	for _, book := range ListAvailableBooks(library) {
+		book.PrintInfo()
+	}
 }
