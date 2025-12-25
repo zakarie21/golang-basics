@@ -18,6 +18,7 @@ Questions:
 9. ListBorrowedBooks: return all books that are currently borrowed
 10. CountBorrowedBooks: return how many books are currently borrowed
 11. ListAvailableBooks: return all books that are currently available
+12. GetTotalBooks: return the total number of books in the library
 */
 
 type Book struct {
@@ -120,6 +121,11 @@ func ListAvailableBooks(library []Book) []Book {
 	return available
 }
 
+// Question 12
+func GetTotalBooks(library []Book) int {
+	return len(library)
+}
+
 func main() {
 	// Create an empty library (slice of books)
 	library := []Book{}
@@ -189,4 +195,7 @@ func main() {
 	for _, book := range ListAvailableBooks(library) {
 		book.PrintInfo()
 	}
+
+	// Use GetTotalBooks
+	fmt.Println("\nTotal books in library:", GetTotalBooks(library))
 }
