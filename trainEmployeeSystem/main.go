@@ -13,6 +13,7 @@ import (
 // 6. CountEmployees: return how many employees are in the list
 // 7. ClearEmployees: remove all employees from the list
 // 8. GetEmployeeIndex: return the index of an employee or -1 if not found
+// 9. HasEmployees: return true if there are any employees in the list
 
 func AddEmployee(employees []string, name string) []string {
 	employees = append(employees, name)
@@ -58,7 +59,6 @@ func ClearEmployees(employees []string) []string {
 	return []string{}
 }
 
-
 func GetEmployeeIndex(employees []string, name string) int {
 	for i := 0; i < len(employees); i++ {
 		if employees[i] == name {
@@ -66,6 +66,11 @@ func GetEmployeeIndex(employees []string, name string) int {
 		}
 	}
 	return -1
+}
+
+// Question 9
+func HasEmployees(employees []string) bool {
+	return len(employees) > 0
 }
 
 func main() {
@@ -108,5 +113,5 @@ func main() {
 	ListEmployees(employees)
 
 	// Demo new function
-	fmt.Println("Index of Charlie:", GetEmployeeIndex(employees, "Charlie"))
+	fmt.Println("Has employees?", HasEmployees(employees))
 }
