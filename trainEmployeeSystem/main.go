@@ -14,6 +14,7 @@ import (
 // 7. ClearEmployees: remove all employees from the list
 // 8. GetEmployeeIndex: return the index of an employee or -1 if not found
 // 9. HasEmployees: return true if there are any employees in the list
+// 10. GetLastEmployee: return the last employee or an error if list is empty
 
 func AddEmployee(employees []string, name string) []string {
 	employees = append(employees, name)
@@ -73,6 +74,14 @@ func HasEmployees(employees []string) bool {
 	return len(employees) > 0
 }
 
+// Question 10
+func GetLastEmployee(employees []string) (string, error) {
+	if len(employees) == 0 {
+		return "", errors.New("no employees in list")
+	}
+	return employees[len(employees)-1], nil
+}
+
 func main() {
 	employees := []string{}
 
@@ -112,6 +121,14 @@ func main() {
 	fmt.Println("After clearing:")
 	ListEmployees(employees)
 
-	// Demo new function
+	// Demo Question 9
 	fmt.Println("Has employees?", HasEmployees(employees))
+
+	// Demo Question 10
+	last, err := GetLastEmployee(employees)
+	if err != nil {
+		fmt.Println("Error:", err)
+	} else {
+		fmt.Println("Last employee:", last)
+	}
 }
