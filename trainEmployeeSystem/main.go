@@ -16,6 +16,7 @@ import (
 // 9. HasEmployees: return true if there are any employees in the list
 // 10. GetLastEmployee: return the last employee or an error if list is empty
 // 11. GetFirstEmployee: return the first employee or an error if list is empty
+// 12. GetTotalEmployees: return the total number of employees
 
 func AddEmployee(employees []string, name string) []string {
 	employees = append(employees, name)
@@ -91,6 +92,11 @@ func GetFirstEmployee(employees []string) (string, error) {
 	return employees[0], nil
 }
 
+// Question 12
+func GetTotalEmployees(employees []string) int {
+	return len(employees)
+}
+
 func main() {
 	employees := []string{}
 
@@ -130,6 +136,9 @@ func main() {
 	fmt.Println("After clearing:")
 	ListEmployees(employees)
 
+	employees = AddEmployee(employees, "Jack")
+	employees = AddEmployee(employees, "Jill")
+
 	// Demo Question 9
 	fmt.Println("Has employees?", HasEmployees(employees))
 
@@ -148,4 +157,7 @@ func main() {
 	} else {
 		fmt.Println("First employee:", first)
 	}
+
+	// Demo Question 12
+	fmt.Println("Total employees :", GetTotalEmployees(employees))
 }
