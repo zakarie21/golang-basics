@@ -15,6 +15,7 @@ import (
 // 8. GetEmployeeIndex: return the index of an employee or -1 if not found
 // 9. HasEmployees: return true if there are any employees in the list
 // 10. GetLastEmployee: return the last employee or an error if list is empty
+// 11. GetFirstEmployee: return the first employee or an error if list is empty
 
 func AddEmployee(employees []string, name string) []string {
 	employees = append(employees, name)
@@ -82,6 +83,14 @@ func GetLastEmployee(employees []string) (string, error) {
 	return employees[len(employees)-1], nil
 }
 
+// Question 11
+func GetFirstEmployee(employees []string) (string, error) {
+	if len(employees) == 0 {
+		return "", errors.New("no employees in list")
+	}
+	return employees[0], nil
+}
+
 func main() {
 	employees := []string{}
 
@@ -130,5 +139,13 @@ func main() {
 		fmt.Println("Error:", err)
 	} else {
 		fmt.Println("Last employee:", last)
+	}
+
+	// Demo Question 11
+	first, err := GetFirstEmployee(employees)
+	if err != nil {
+		fmt.Println("Error:", err)
+	} else {
+		fmt.Println("First employee:", first)
 	}
 }
