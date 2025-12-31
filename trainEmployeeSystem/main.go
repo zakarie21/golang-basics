@@ -17,6 +17,7 @@ import (
 // 10. GetLastEmployee: return the last employee or an error if list is empty
 // 11. GetFirstEmployee: return the first employee or an error if list is empty
 // 12. GetTotalEmployees: return the total number of employees
+// 13. IsEmployeePresent: return true if a specific employee exists
 
 func AddEmployee(employees []string, name string) []string {
 	employees = append(employees, name)
@@ -97,6 +98,16 @@ func GetTotalEmployees(employees []string) int {
 	return len(employees)
 }
 
+// Question 13
+func IsEmployeePresent(employees []string, name string) bool {
+	for i := 0; i < len(employees); i++ {
+		if employees[i] == name {
+			return true
+		}
+	}
+	return false
+}
+
 func main() {
 	employees := []string{}
 
@@ -159,5 +170,9 @@ func main() {
 	}
 
 	// Demo Question 12
-	fmt.Println("Total employees :", GetTotalEmployees(employees))
+	fmt.Println("Total employees:", GetTotalEmployees(employees))
+
+	// Demo Question 13
+	fmt.Println("Is Jack present?", IsEmployeePresent(employees, "Jack"))
+	fmt.Println("Is Alice present?", IsEmployeePresent(employees, "Alice"))
 }
