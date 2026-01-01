@@ -12,6 +12,7 @@ Questions:
 3. Write AddFlight(flights []Flight, f Flight) []Flight to add new flights
 4. Write BookSeat(flights []Flight, flightNumber string) ([]Flight, error) to reduce seats or return an error
 5. Write ShowAllFlights(flights []Flight) to display all flight details
+6. FindFlightByNumber: return a flight by flight number or an error if not found
 */
 
 type Flight struct {
@@ -45,6 +46,16 @@ func ShowAllFlights(flights []Flight) {
 	}
 }
 
+// Question 6
+func FindFlightByNumber(flights []Flight, flightNumber string) (*Flight, error) {
+	for i := range flights {
+		if flights[i].FlightNumber == flightNumber {
+			return &flights[i], nil
+		}
+	}
+	return nil, errors.New("flight not found")
+}
+
 func main() {
 	// Step 1: Create an empty list of flights
 	flights := []Flight{}
@@ -76,4 +87,12 @@ func main() {
 	// Step 6: Show updated flight info
 	fmt.Println("\nUpdated flight list:")
 	ShowAllFlights(flights)
+
+	// Demo Question 6
+	flight, err := FindFlightByNumber(flights, "GT324")
+	if err != nil {
+		fmt.Println("Error:", err)
+	} else {
+		fmt.Println("\nFound flight:", flight.FlightNumber, "| Destination:", flight.Destination)
+	}
 }
