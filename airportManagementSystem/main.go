@@ -13,6 +13,7 @@ Questions:
 4. Write BookSeat(flights []Flight, flightNumber string) ([]Flight, error) to reduce seats or return an error
 5. Write ShowAllFlights(flights []Flight) to display all flight details
 6. FindFlightByNumber: return a flight by flight number or an error if not found
+7. CountTotalFlights: return the total number of flights
 */
 
 type Flight struct {
@@ -56,6 +57,11 @@ func FindFlightByNumber(flights []Flight, flightNumber string) (*Flight, error) 
 	return nil, errors.New("flight not found")
 }
 
+// Question 7
+func CountTotalFlights(flights []Flight) int {
+	return len(flights)
+}
+
 func main() {
 	// Step 1: Create an empty list of flights
 	flights := []Flight{}
@@ -95,4 +101,7 @@ func main() {
 	} else {
 		fmt.Println("\nFound flight:", flight.FlightNumber, "| Destination:", flight.Destination)
 	}
+
+	// Demo Question 7
+	fmt.Println("\nTotal flights:", CountTotalFlights(flights))
 }
