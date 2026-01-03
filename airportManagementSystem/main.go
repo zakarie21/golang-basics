@@ -14,6 +14,7 @@ Questions:
 5. Write ShowAllFlights(flights []Flight) to display all flight details
 6. FindFlightByNumber: return a flight by flight number or an error if not found
 7. CountTotalFlights: return the total number of flights
+8. ListAvailableFlights: return all flights that still have available seats
 */
 
 type Flight struct {
@@ -62,6 +63,17 @@ func CountTotalFlights(flights []Flight) int {
 	return len(flights)
 }
 
+// Question 8
+func ListAvailableFlights(flights []Flight) []Flight {
+	var available []Flight
+	for _, flight := range flights {
+		if flight.SeatsAvailable > 0 {
+			available = append(available, flight)
+		}
+	}
+	return available
+}
+
 func main() {
 	// Step 1: Create an empty list of flights
 	flights := []Flight{}
@@ -104,4 +116,10 @@ func main() {
 
 	// Demo Question 7
 	fmt.Println("\nTotal flights:", CountTotalFlights(flights))
+
+	// Demo Question 8
+	fmt.Println("\nFlights with available seats:")
+	for _, f := range ListAvailableFlights(flights) {
+		fmt.Println("Flight:", f.FlightNumber, "| Seats left:", f.SeatsAvailable)
+	}
 }
