@@ -15,6 +15,7 @@ Questions:
 6. FindFlightByNumber: return a flight by flight number or an error if not found
 7. CountTotalFlights: return the total number of flights
 8. ListAvailableFlights: return all flights that still have available seats
+9. HasAvailableFlights: return true if at least one flight has available seats
 */
 
 type Flight struct {
@@ -74,6 +75,16 @@ func ListAvailableFlights(flights []Flight) []Flight {
 	return available
 }
 
+// Question 9
+func HasAvailableFlights(flights []Flight) bool {
+	for _, flight := range flights {
+		if flight.SeatsAvailable > 0 {
+			return true
+		}
+	}
+	return false
+}
+
 func main() {
 	// Step 1: Create an empty list of flights
 	flights := []Flight{}
@@ -122,4 +133,7 @@ func main() {
 	for _, f := range ListAvailableFlights(flights) {
 		fmt.Println("Flight:", f.FlightNumber, "| Seats left:", f.SeatsAvailable)
 	}
+
+	// Demo Question 9
+	fmt.Println("\nAny flights available?", HasAvailableFlights(flights))
 }
