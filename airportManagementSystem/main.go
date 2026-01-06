@@ -17,6 +17,7 @@ Questions:
 8. ListAvailableFlights: return all flights that still have available seats
 9. HasAvailableFlights: return true if at least one flight has available seats
 10. GetFirstAvailableFlight: return the first flight with available seats or an error if none
+11. CountAvailableSeats: return total available seats across all flights
 */
 
 type Flight struct {
@@ -96,6 +97,15 @@ func GetFirstAvailableFlight(flights []Flight) (*Flight, error) {
 	return nil, errors.New("no available flights")
 }
 
+// Question 11
+func CountAvailableSeats(flights []Flight) int {
+	total := 0
+	for _, flight := range flights {
+		total += flight.SeatsAvailable
+	}
+	return total
+}
+
 func main() {
 	// Step 1: Create an empty list of flights
 	flights := []Flight{}
@@ -114,8 +124,6 @@ func main() {
 	flights, err = BookSeat(flights, "VS456")
 	if err != nil {
 		fmt.Println("Error:", err)
-	} else {
-		fmt.Println("Seat booked successfully on VS456!")
 	}
 
 	// Step 5: Try booking on a non-existent flight
@@ -128,26 +136,6 @@ func main() {
 	fmt.Println("\nUpdated flight list:")
 	ShowAllFlights(flights)
 
-	// Demo Question 6
-	flight, err := FindFlightByNumber(flights, "GT324")
-	if err != nil {
-		fmt.Println("Error:", err)
-	} else {
-		fmt.Println("\nFound flight:", flight.FlightNumber, "| Destination:", flight.Destination)
-	}
-
-	// Demo Question 7
-	fmt.Println("\nTotal flights:", CountTotalFlights(flights))
-
-	// Demo Question 8
-	fmt.Println("\nFlights with available seats:")
-	for _, f := range ListAvailableFlights(flights) {
-		fmt.Println("Flight:", f.FlightNumber, "| Seats left:", f.SeatsAvailable)
-	}
-
-	// Demo Question 9
-	fmt.Println("\nAny flights available?", HasAvailableFlights(flights))
-
 	// Demo Question 10
 	firstAvailable, err := GetFirstAvailableFlight(flights)
 	if err != nil {
@@ -155,4 +143,7 @@ func main() {
 	} else {
 		fmt.Println("\nFirst available flight:", firstAvailable.FlightNumber)
 	}
+
+	// Demo Question 11
+	fmt.Println("\nTotal available seats:", CountAvailableSeats(flights))
 }
