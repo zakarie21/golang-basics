@@ -18,6 +18,7 @@ Questions:
 9. HasAvailableFlights: return true if at least one flight has available seats
 10. GetFirstAvailableFlight: return the first flight with available seats or an error if none
 11. CountAvailableSeats: return total available seats across all flights
+12. GetFlightWithMostAvailableSeats: return flight with most seats or an error if none
 */
 
 type Flight struct {
@@ -106,6 +107,29 @@ func CountAvailableSeats(flights []Flight) int {
 	return total
 }
 
+// Question 12
+func GetFlightWithMostAvailableSeats(flights []Flight) (*Flight, error) {
+	if len(flights) == 0 {
+		return nil, errors.New("no flights available")
+	}
+
+	maxIndex := -1
+	maxSeats := 0
+
+	for i := range flights {
+		if flights[i].SeatsAvailable > maxSeats {
+			maxSeats = flights[i].SeatsAvailable
+			maxIndex = i
+		}
+	}
+
+	if maxIndex == -1 {
+		return nil, errors.New("no available seats on any flight")
+	}
+
+	return &flights[maxIndex], nil
+}
+
 func main() {
 	// Step 1: Create an empty list of flights
 	flights := []Flight{}
@@ -146,4 +170,12 @@ func main() {
 
 	// Demo Question 11
 	fmt.Println("\nTotal available seats:", CountAvailableSeats(flights))
+
+	// Demo Question 12
+	mostSeats, err := GetFlightWithMostAvailableSeats(flights)
+	if err != nil {
+		fmt.Println("Error:", err)
+	} else {
+		fmt.Println("\nFlight with most available seats:", mostSeats.FlightNumber)
+	}
 }
