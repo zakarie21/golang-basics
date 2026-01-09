@@ -13,6 +13,7 @@ Questions:
 4. Write BuyTicket function that reduces TicketsAvailable or returns an error if sold out
 5. Write ShowRevenue function that loops through all movies and calculates total revenue
 6. Write FindMovie function that prints movie details or an error if not found
+7. CountMovies: return the total number of movies in the cinema
 */
 
 type Movie struct {
@@ -62,6 +63,11 @@ func FindMovie(cinema []Movie, title string) error {
 	return errors.New("movie not found in cinema")
 }
 
+// Question 7
+func CountMovies(cinema []Movie) int {
+	return len(cinema)
+}
+
 func main() {
 	// Step 1: Create an empty cinema (slice of movies)
 	cinema := []Movie{}
@@ -105,5 +111,7 @@ func main() {
 	if err != nil {
 		fmt.Println("Error:", err)
 	}
-}
 
+	// Demo Question 7
+	fmt.Println("\nTotal movies in cinema:", CountMovies(cinema))
+}
