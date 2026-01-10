@@ -14,6 +14,7 @@ Questions:
 5. Write ShowRevenue function that loops through all movies and calculates total revenue
 6. Write FindMovie function that prints movie details or an error if not found
 7. CountMovies: return the total number of movies in the cinema
+8. HasAvailableTickets: return true if at least one movie has tickets available
 */
 
 type Movie struct {
@@ -68,6 +69,16 @@ func CountMovies(cinema []Movie) int {
 	return len(cinema)
 }
 
+// Question 8
+func HasAvailableTickets(cinema []Movie) bool {
+	for _, movie := range cinema {
+		if movie.TicketsAvailable > 0 {
+			return true
+		}
+	}
+	return false
+}
+
 func main() {
 	// Step 1: Create an empty cinema (slice of movies)
 	cinema := []Movie{}
@@ -114,4 +125,7 @@ func main() {
 
 	// Demo Question 7
 	fmt.Println("\nTotal movies in cinema:", CountMovies(cinema))
+
+	// Demo Question 8
+	fmt.Println("Any tickets available?", HasAvailableTickets(cinema))
 }
