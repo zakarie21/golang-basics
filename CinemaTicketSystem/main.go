@@ -16,6 +16,7 @@ Questions:
 7. CountMovies: return the total number of movies in the cinema
 8. HasAvailableTickets: return true if at least one movie has tickets available
 9. GetFirstAvailableMovie: return the first movie with available tickets or an error if none
+10. CountAvailableTickets: return the total number of available tickets across all movies
 */
 
 type Movie struct {
@@ -90,6 +91,15 @@ func GetFirstAvailableMovie(cinema []Movie) (*Movie, error) {
 	return nil, errors.New("no movies with available tickets")
 }
 
+// Question 10
+func CountAvailableTickets(cinema []Movie) int {
+	total := 0
+	for _, movie := range cinema {
+		total += movie.TicketsAvailable
+	}
+	return total
+}
+
 func main() {
 	// Step 1: Create an empty cinema (slice of movies)
 	cinema := []Movie{}
@@ -147,4 +157,7 @@ func main() {
 	} else {
 		fmt.Println("First available movie:", firstMovie.Title)
 	}
+
+	// Demo Question 10
+	fmt.Println("Total available tickets:", CountAvailableTickets(cinema))
 }
