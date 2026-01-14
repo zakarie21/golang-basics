@@ -18,6 +18,7 @@ Questions:
 9. GetFirstAvailableMovie: return the first movie with available tickets or an error if none
 10. CountAvailableTickets: return the total number of available tickets across all movies
 11. ListAvailableMovies: return all movies that still have tickets available
+12. IsMovieAvailable: return true if a specific movie has tickets available
 */
 
 type Movie struct {
@@ -112,6 +113,16 @@ func ListAvailableMovies(cinema []Movie) []Movie {
 	return available
 }
 
+// Question 12
+func IsMovieAvailable(cinema []Movie, title string) bool {
+	for _, movie := range cinema {
+		if movie.Title == title && movie.TicketsAvailable > 0 {
+			return true
+		}
+	}
+	return false
+}
+
 func main() {
 	// Step 1: Create an empty cinema (slice of movies)
 	cinema := []Movie{}
@@ -178,4 +189,8 @@ func main() {
 	for _, movie := range ListAvailableMovies(cinema) {
 		fmt.Println(movie.Title, "- Tickets left:", movie.TicketsAvailable)
 	}
+
+	// Demo Question 12
+	fmt.Println("\nIs Inception available?", IsMovieAvailable(cinema, "Inception"))
+	fmt.Println("Is Avatar available?", IsMovieAvailable(cinema, "Avatar"))
 }
