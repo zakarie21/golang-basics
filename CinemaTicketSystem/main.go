@@ -19,6 +19,7 @@ Questions:
 10. CountAvailableTickets: return the total number of available tickets across all movies
 11. ListAvailableMovies: return all movies that still have tickets available
 12. IsMovieAvailable: return true if a specific movie has tickets available
+13. GetMovieByTitle: return a movie by title or an error if not found
 */
 
 type Movie struct {
@@ -123,6 +124,16 @@ func IsMovieAvailable(cinema []Movie, title string) bool {
 	return false
 }
 
+// Question 13
+func GetMovieByTitle(cinema []Movie, title string) (*Movie, error) {
+	for i := range cinema {
+		if cinema[i].Title == title {
+			return &cinema[i], nil
+		}
+	}
+	return nil, errors.New("movie not found")
+}
+
 func main() {
 	// Step 1: Create an empty cinema (slice of movies)
 	cinema := []Movie{}
@@ -193,4 +204,12 @@ func main() {
 	// Demo Question 12
 	fmt.Println("\nIs Inception available?", IsMovieAvailable(cinema, "Inception"))
 	fmt.Println("Is Avatar available?", IsMovieAvailable(cinema, "Avatar"))
+
+	// Demo Question 13
+	movie, err := GetMovieByTitle(cinema, "Tenet")
+	if err != nil {
+		fmt.Println("Error:", err)
+	} else {
+		fmt.Println("\nRetrieved movie:", movie.Title, "- Tickets:", movie.TicketsAvailable)
+	}
 }
