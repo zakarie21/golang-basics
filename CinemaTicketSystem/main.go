@@ -20,6 +20,7 @@ Questions:
 11. ListAvailableMovies: return all movies that still have tickets available
 12. IsMovieAvailable: return true if a specific movie has tickets available
 13. GetMovieByTitle: return a movie by title or an error if not found
+14. AverageTicketPrice: return the average ticket price of all movies
 */
 
 type Movie struct {
@@ -134,6 +135,18 @@ func GetMovieByTitle(cinema []Movie, title string) (*Movie, error) {
 	return nil, errors.New("movie not found")
 }
 
+// Question 14
+func AverageTicketPrice(cinema []Movie) float64 {
+	if len(cinema) == 0 {
+		return 0
+	}
+	total := 0.0
+	for _, movie := range cinema {
+		total += movie.TicketPrice
+	}
+	return total / float64(len(cinema))
+}
+
 func main() {
 	// Step 1: Create an empty cinema (slice of movies)
 	cinema := []Movie{}
@@ -212,4 +225,7 @@ func main() {
 	} else {
 		fmt.Println("\nRetrieved movie:", movie.Title, "- Tickets:", movie.TicketsAvailable)
 	}
+
+	// Demo Question 14
+	fmt.Printf("\nAverage ticket price: %0.2f", AverageTicketPrice(cinema))
 }
