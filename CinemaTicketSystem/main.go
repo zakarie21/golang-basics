@@ -21,6 +21,7 @@ Questions:
 12. IsMovieAvailable: return true if a specific movie has tickets available
 13. GetMovieByTitle: return a movie by title or an error if not found
 14. AverageTicketPrice: return the average ticket price of all movies
+15. GetMostExpensiveMovie: return the movie with the highest ticket price or an error if cinema is empty
 */
 
 type Movie struct {
@@ -147,6 +148,21 @@ func AverageTicketPrice(cinema []Movie) float64 {
 	return total / float64(len(cinema))
 }
 
+// Question 15
+func GetMostExpensiveMovie(cinema []Movie) (*Movie, error) {
+	if len(cinema) == 0 {
+		return nil, errors.New("cinema is empty")
+	}
+
+	expensive := &cinema[0]
+	for i := 1; i < len(cinema); i++ {
+		if cinema[i].TicketPrice > expensive.TicketPrice {
+			expensive = &cinema[i]
+		}
+	}
+	return expensive, nil
+}
+
 func main() {
 	// Step 1: Create an empty cinema (slice of movies)
 	cinema := []Movie{}
@@ -228,4 +244,12 @@ func main() {
 
 	// Demo Question 14
 	fmt.Printf("\nAverage ticket price: %0.2f", AverageTicketPrice(cinema))
+
+	// Demo Question 15
+	expensiveMovie, err := GetMostExpensiveMovie(cinema)
+	if err != nil {
+		fmt.Println("Error:", err)
+	} else {
+		fmt.Println("\nMost expensive movie:", expensiveMovie.Title, "- Price:", expensiveMovie.TicketPrice)
+	}
 }
