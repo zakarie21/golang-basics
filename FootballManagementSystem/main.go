@@ -17,6 +17,7 @@ Questions:
 8. Write a function RemovePlayer that removes a player by name from the team.
 9. Write a function GetTotalGoalsByPosition(team []Player, position string) int that returns the total goals scored by players in a given position.
 10. Write a function CountPlayers(team []Player) int that returns how many players are in the team.
+11. AverageGoalsPerPlayer: return the average goals scored per player
 */
 
 type Player struct {
@@ -98,9 +99,21 @@ func GetTotalGoalsByPosition(team []Player, position string) int {
 	return total
 }
 
-
 func CountPlayers(team []Player) int {
 	return len(team)
+}
+
+// Question 11
+func AverageGoalsPerPlayer(team []Player) float64 {
+	if len(team) == 0 {
+		return 0
+	}
+
+	totalGoals := 0
+	for _, player := range team {
+		totalGoals += player.Goals
+	}
+	return float64(totalGoals) / float64(len(team))
 }
 
 func main() {
@@ -140,6 +153,8 @@ func main() {
 
 	fmt.Println("\nTotal goals by forwards:", GetTotalGoalsByPosition(team, "Forward"))
 
-	
 	fmt.Println("\nTotal players in team:", CountPlayers(team))
+
+	// Demo Question 11
+	fmt.Printf("\nAverage goals per player: %.2f\n", AverageGoalsPerPlayer(team))
 }
