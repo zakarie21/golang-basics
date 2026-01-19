@@ -18,6 +18,7 @@ Questions:
 9. Write a function GetTotalGoalsByPosition(team []Player, position string) int that returns the total goals scored by players in a given position.
 10. Write a function CountPlayers(team []Player) int that returns how many players are in the team.
 11. AverageGoalsPerPlayer: return the average goals scored per player
+12. GetPlayerByName: return a player by name or an error if not found
 */
 
 type Player struct {
@@ -116,6 +117,16 @@ func AverageGoalsPerPlayer(team []Player) float64 {
 	return float64(totalGoals) / float64(len(team))
 }
 
+// Question 12
+func GetPlayerByName(team []Player, name string) (*Player, error) {
+	for i := range team {
+		if team[i].Name == name {
+			return &team[i], nil
+		}
+	}
+	return nil, errors.New("player not found")
+}
+
 func main() {
 	team := []Player{}
 
@@ -157,4 +168,12 @@ func main() {
 
 	// Demo Question 11
 	fmt.Printf("\nAverage goals per player: %.2f\n", AverageGoalsPerPlayer(team))
+
+	// Demo Question 12
+	player, err := GetPlayerByName(team, "Messi")
+	if err != nil {
+		fmt.Println("Error:", err)
+	} else {
+		fmt.Println("\nRetrieved player:", player.Name, "-", player.Position, "- Goals:", player.Goals)
+	}
 }
