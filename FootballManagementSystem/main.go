@@ -19,6 +19,7 @@ Questions:
 10. Write a function CountPlayers(team []Player) int that returns how many players are in the team.
 11. AverageGoalsPerPlayer: return the average goals scored per player
 12. GetPlayerByName: return a player by name or an error if not found
+13. HasPlayer: return true if a player exists on the team
 */
 
 type Player struct {
@@ -127,6 +128,16 @@ func GetPlayerByName(team []Player, name string) (*Player, error) {
 	return nil, errors.New("player not found")
 }
 
+// Question 13
+func HasPlayer(team []Player, name string) bool {
+	for _, player := range team {
+		if player.Name == name {
+			return true
+		}
+	}
+	return false
+}
+
 func main() {
 	team := []Player{}
 
@@ -176,4 +187,9 @@ func main() {
 	} else {
 		fmt.Println("\nRetrieved player:", player.Name, "-", player.Position, "- Goals:", player.Goals)
 	}
+
+	// Demo Question 13
+	fmt.Println("\nDoes Ronaldo exist?", HasPlayer(team, "Ronaldo"))
+	fmt.Println("Does Neymar exist?", HasPlayer(team, "Neymar"))
 }
+
