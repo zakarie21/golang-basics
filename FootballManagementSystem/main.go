@@ -20,6 +20,7 @@ Questions:
 11. AverageGoalsPerPlayer: return the average goals scored per player
 12. GetPlayerByName: return a player by name or an error if not found
 13. HasPlayer: return true if a player exists on the team
+14. GetPlayersWithMinGoals: return players with at least N goals
 */
 
 type Player struct {
@@ -138,6 +139,17 @@ func HasPlayer(team []Player, name string) bool {
 	return false
 }
 
+// Question 14
+func GetPlayersWithMinGoals(team []Player, minGoals int) []Player {
+	var result []Player
+	for _, player := range team {
+		if player.Goals >= minGoals {
+			result = append(result, player)
+		}
+	}
+	return result
+}
+
 func main() {
 	team := []Player{}
 
@@ -191,5 +203,10 @@ func main() {
 	// Demo Question 13
 	fmt.Println("\nDoes Ronaldo exist?", HasPlayer(team, "Ronaldo"))
 	fmt.Println("Does Neymar exist?", HasPlayer(team, "Neymar"))
-}
 
+	// Demo Question 14
+	fmt.Println("\nPlayers with at least 5 goals:")
+	for _, p := range GetPlayersWithMinGoals(team, 5) {
+		fmt.Println(p.Name, "-", p.Goals)
+	}
+}
