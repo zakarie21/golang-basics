@@ -21,6 +21,7 @@ Questions:
 12. GetPlayerByName: return a player by name or an error if not found
 13. HasPlayer: return true if a player exists on the team
 14. GetPlayersWithMinGoals: return players with at least N goals
+15. CountPlayersByPosition: return the number of players in a given position
 */
 
 type Player struct {
@@ -150,6 +151,17 @@ func GetPlayersWithMinGoals(team []Player, minGoals int) []Player {
 	return result
 }
 
+// Question 15
+func CountPlayersByPosition(team []Player, position string) int {
+	count := 0
+	for _, player := range team {
+		if player.Position == position {
+			count++
+		}
+	}
+	return count
+}
+
 func main() {
 	team := []Player{}
 
@@ -209,4 +221,8 @@ func main() {
 	for _, p := range GetPlayersWithMinGoals(team, 5) {
 		fmt.Println(p.Name, "-", p.Goals)
 	}
+
+	// Demo Question 15
+	fmt.Println("\nNumber of forwards:", CountPlayersByPosition(team, "Forward"))
 }
+
