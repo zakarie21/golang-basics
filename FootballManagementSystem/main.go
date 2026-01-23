@@ -22,6 +22,7 @@ Questions:
 13. HasPlayer: return true if a player exists on the team
 14. GetPlayersWithMinGoals: return players with at least N goals
 15. CountPlayersByPosition: return the number of players in a given position
+16. GetHighestGoalCount: return the highest number of goals scored by any player
 */
 
 type Player struct {
@@ -162,6 +163,17 @@ func CountPlayersByPosition(team []Player, position string) int {
 	return count
 }
 
+// Question 16
+func GetHighestGoalCount(team []Player) int {
+	maxGoals := 0
+	for _, player := range team {
+		if player.Goals > maxGoals {
+			maxGoals = player.Goals
+		}
+	}
+	return maxGoals
+}
+
 func main() {
 	team := []Player{}
 
@@ -224,5 +236,8 @@ func main() {
 
 	// Demo Question 15
 	fmt.Println("\nNumber of forwards:", CountPlayersByPosition(team, "Forward"))
+
+	// Demo Question 16
+	fmt.Println("\nHighest goal count:", GetHighestGoalCount(team))
 }
 
