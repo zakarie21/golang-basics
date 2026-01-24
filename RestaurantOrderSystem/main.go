@@ -15,6 +15,7 @@ Questions:
 6. Write FindMeal function to check if a meal exists in the menu and print its details
 7. Write UpdatePrice function to change the price of a meal if it exists
 8. Write RestockMeal function to mark a meal as available again or return an error if not found
+9. CountAvailableMeals: return the number of meals that are currently available
 */
 
 type Meal struct {
@@ -82,6 +83,17 @@ func RestockMeal(menu []Meal, name string) ([]Meal, error) {
 	return menu, errors.New("meal not found")
 }
 
+// Question 9
+func CountAvailableMeals(menu []Meal) int {
+	count := 0
+	for _, meal := range menu {
+		if meal.Available {
+			count++
+		}
+	}
+	return count
+}
+
 func main() {
 	// Create an empty menu (slice of meals)
 	menu := []Meal{}
@@ -134,4 +146,7 @@ func main() {
 	// Step 9: Show final menu
 	fmt.Println("\nFinal Menu:")
 	ListMenu(menu)
+
+	// Demo Question 9
+	fmt.Println("\nAvailable meals count:", CountAvailableMeals(menu))
 }
