@@ -16,6 +16,7 @@ Questions:
 7. Write UpdatePrice function to change the price of a meal if it exists
 8. Write RestockMeal function to mark a meal as available again or return an error if not found
 9. CountAvailableMeals: return the number of meals that are currently available
+10. GetTotalMenuValue: return the total price of all available meals
 */
 
 type Meal struct {
@@ -94,59 +95,62 @@ func CountAvailableMeals(menu []Meal) int {
 	return count
 }
 
+// Question 10
+func GetTotalMenuValue(menu []Meal) float64 {
+	total := 0.0
+	for _, meal := range menu {
+		if meal.Available {
+			total += meal.Price
+		}
+	}
+	return total
+}
+
 func main() {
-	// Create an empty menu (slice of meals)
 	menu := []Meal{}
 
-	// Step 1: Add meals to the menu
 	menu = AddMeal(menu, Meal{Name: "Burger", Price: 5.99, Available: true})
 	menu = AddMeal(menu, Meal{Name: "Pizza", Price: 8.49, Available: true})
 	menu = AddMeal(menu, Meal{Name: "Salad", Price: 4.25, Available: true})
 
-	// Step 2: Show the initial menu
 	fmt.Println("Initial Menu:")
 	ListMenu(menu)
 
-	// Step 3: Order a meal
 	var err error
 	menu, err = OrderMeal(menu, "Pizza")
 	if err != nil {
 		fmt.Println("Error:", err)
 	}
 
-	// Step 4: Show updated menu
 	fmt.Println("\nMenu After Ordering:")
 	ListMenu(menu)
 
-	// Step 5: Find a meal
 	fmt.Println("\nFinding a meal:")
 	err = FindMeal(menu, "Burger")
 	if err != nil {
 		fmt.Println("Error:", err)
 	}
 
-	// Step 6: Update a meal’s price
 	menu, err = UpdatePrice(menu, "Salad", 5.50)
 	if err != nil {
 		fmt.Println("Error:", err)
 	}
 
-	// Step 7: Restock a meal (make it available again)
 	menu, err = RestockMeal(menu, "Pizza")
 	if err != nil {
 		fmt.Println("Error:", err)
 	}
 
-	// Step 8: Try to restock a meal that doesn’t exist
 	menu, err = RestockMeal(menu, "Sushi")
 	if err != nil {
 		fmt.Println("Error:", err)
 	}
 
-	// Step 9: Show final menu
 	fmt.Println("\nFinal Menu:")
 	ListMenu(menu)
 
-	// Demo Question 9
 	fmt.Println("\nAvailable meals count:", CountAvailableMeals(menu))
+
+	// Demo Question 10
+	fmt.Printf("Total value of available meals: $%.2f\n", GetTotalMenuValue(menu))
 }
