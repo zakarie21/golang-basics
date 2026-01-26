@@ -17,6 +17,7 @@ Questions:
 8. Write RestockMeal function to mark a meal as available again or return an error if not found
 9. CountAvailableMeals: return the number of meals that are currently available
 10. GetTotalMenuValue: return the total price of all available meals
+11. GetFirstAvailableMeal: return the first available meal or an error if none exist
 */
 
 type Meal struct {
@@ -106,6 +107,16 @@ func GetTotalMenuValue(menu []Meal) float64 {
 	return total
 }
 
+// Question 11
+func GetFirstAvailableMeal(menu []Meal) (Meal, error) {
+	for _, meal := range menu {
+		if meal.Available {
+			return meal, nil
+		}
+	}
+	return Meal{}, errors.New("no available meals")
+}
+
 func main() {
 	menu := []Meal{}
 
@@ -150,7 +161,13 @@ func main() {
 	ListMenu(menu)
 
 	fmt.Println("\nAvailable meals count:", CountAvailableMeals(menu))
-
-	// Demo Question 10
 	fmt.Printf("Total value of available meals: $%.2f\n", GetTotalMenuValue(menu))
+
+	// Demo Question 11
+	meal, err := GetFirstAvailableMeal(menu)
+	if err != nil {
+		fmt.Println("Error:", err)
+	} else {
+		fmt.Println("First available meal:", meal.Name)
+	}
 }
