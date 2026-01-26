@@ -18,6 +18,7 @@ Questions:
 9. CountAvailableMeals: return the number of meals that are currently available
 10. GetTotalMenuValue: return the total price of all available meals
 11. GetFirstAvailableMeal: return the first available meal or an error if none exist
+12. HasMeal: return true if a meal exists in the menu
 */
 
 type Meal struct {
@@ -117,6 +118,16 @@ func GetFirstAvailableMeal(menu []Meal) (Meal, error) {
 	return Meal{}, errors.New("no available meals")
 }
 
+// Question 12
+func HasMeal(menu []Meal, name string) bool {
+	for _, meal := range menu {
+		if meal.Name == name {
+			return true
+		}
+	}
+	return false
+}
+
 func main() {
 	menu := []Meal{}
 
@@ -170,4 +181,8 @@ func main() {
 	} else {
 		fmt.Println("First available meal:", meal.Name)
 	}
+
+	// Demo Question 12
+	fmt.Println("Does Burger exist?", HasMeal(menu, "Burger"))
+	fmt.Println("Does Sushi exist?", HasMeal(menu, "Sushi"))
 }
