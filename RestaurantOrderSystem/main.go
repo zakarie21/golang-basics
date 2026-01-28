@@ -19,6 +19,7 @@ Questions:
 10. GetTotalMenuValue: return the total price of all available meals
 11. GetFirstAvailableMeal: return the first available meal or an error if none exist
 12. HasMeal: return true if a meal exists in the menu
+13. IsMealAvailable: return true if a meal exists and is available
 */
 
 type Meal struct {
@@ -128,6 +129,16 @@ func HasMeal(menu []Meal, name string) bool {
 	return false
 }
 
+// Question 13
+func IsMealAvailable(menu []Meal, name string) bool {
+	for _, meal := range menu {
+		if meal.Name == name && meal.Available {
+			return true
+		}
+	}
+	return false
+}
+
 func main() {
 	menu := []Meal{}
 
@@ -174,7 +185,6 @@ func main() {
 	fmt.Println("\nAvailable meals count:", CountAvailableMeals(menu))
 	fmt.Printf("Total value of available meals: $%.2f\n", GetTotalMenuValue(menu))
 
-	// Demo Question 11
 	meal, err := GetFirstAvailableMeal(menu)
 	if err != nil {
 		fmt.Println("Error:", err)
@@ -182,7 +192,10 @@ func main() {
 		fmt.Println("First available meal:", meal.Name)
 	}
 
-	// Demo Question 12
 	fmt.Println("Does Burger exist?", HasMeal(menu, "Burger"))
 	fmt.Println("Does Sushi exist?", HasMeal(menu, "Sushi"))
+
+	// Demo Question 13
+	fmt.Println("Is Pizza available?", IsMealAvailable(menu, "Pizza"))
+	fmt.Println("Is Sushi available?", IsMealAvailable(menu, "Sushi"))
 }
