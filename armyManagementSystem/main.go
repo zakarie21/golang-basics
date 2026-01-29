@@ -15,6 +15,7 @@ Questions:
 6. Write CountSoldiers(soldiers []string) that prints how many soldiers are in the army
 7. Write ClearArmy(soldiers []string) []string that removes all soldiers from the army
 8. Write PromoteSoldier(soldiers []string, name string) error that prints a message if soldier found, otherwise returns an error
+9. HasSoldier: return true if a soldier exists in the army
 */
 
 func AddSoldier(soldiers []string, name string) []string {
@@ -73,6 +74,16 @@ func PromoteSoldier(soldiers []string, name string) error {
 	return errors.New("soldier not found")
 }
 
+// Question 9
+func HasSoldier(soldiers []string, name string) bool {
+	for _, soldier := range soldiers {
+		if soldier == name {
+			return true
+		}
+	}
+	return false
+}
+
 func main() {
 	// Start with an empty slice
 	soldiers := []string{}
@@ -80,7 +91,8 @@ func main() {
 	// Add some soldiers
 	soldiers = AddSoldier(soldiers, "John")
 	soldiers = AddSoldier(soldiers, "Mike")
-	soldiers = AddSoldier(soldiers, "Sara")
+	soldiers = AddSoldier(soldiers, "Amy")
+	soldiers = AddSoldier(soldiers, "Tom")
 
 	// List them
 	ListSoldiers(soldiers)
@@ -95,7 +107,7 @@ func main() {
 	}
 
 	// Try to promote a soldier
-	err = PromoteSoldier(soldiers, "Sara")
+	err = PromoteSoldier(soldiers, "Amy")
 	if err != nil {
 		fmt.Println("Error:", err)
 	}
@@ -118,10 +130,18 @@ func main() {
 	// Clear the army
 	soldiers = ClearArmy(soldiers)
 
+	//re-add Tom
+	soldiers = AddSoldier(soldiers, "Tom")
+
 	// Show after clearing
 	ListSoldiers(soldiers)
 
 	// Final count
 	CountSoldiers(soldiers)
+
+	// Demo Question 9
+	fmt.Println("Does Mike exist?", HasSoldier(soldiers, "Mike"))
+	fmt.Println("Does Tom exist?", HasSoldier(soldiers, "Tom"))
 }
+
 
